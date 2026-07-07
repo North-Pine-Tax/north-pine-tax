@@ -24,7 +24,8 @@ import {
   updateStripeAccount,
   fetchStripeAccount,
 } from '../../ducks/stripeConnectAccount.duck';
-import { fetchCurrentUser } from '../../ducks/user.duck';
+import { fetchCurrentUser, currentUserTypeSelector } from '../../ducks/user.duck';
+import { updateProfile } from '../ProfileSettingsPage/ProfileSettingsPage.duck';
 
 const { UUID } = sdkTypes;
 
@@ -164,7 +165,7 @@ const updateStockOfListingMaybe = (listingId, stockTotals, dispatch) => {
 // create, set stock, show listing (to get updated currentStock entity)
 export const createListingDraftThunk = createAsyncThunk(
   'EditListingPage/createListingDraft',
-  ({ data, config }, { dispatch, rejectWithValue, extra: sdk }) => {
+  ({ data, config }, { dispatch, getState, rejectWithValue, extra: sdk }) => {
     const { stockUpdate, images, ...rest } = data;
 
     // If images should be saved, create array out of the image UUIDs for the API call
@@ -184,6 +185,14 @@ export const createListingDraftThunk = createAsyncThunk(
       .then(response => {
         dispatch(addMarketplaceEntities(response));
         const listingId = response.data.data.id;
+
+        // Providers have exactly one listing, acting as their public profile. Link it to
+        // their user so it can be looked up without a listings query (e.g. from ProfilePage).
+        const userType = currentUserTypeSelector(getState());
+        if (userType === 'provider') {
+          dispatch(updateProfile({ publicData: { profileListingId: listingId.uuid } }));
+        }
+
         // If stockUpdate info is passed through, update stock
         return updateStockOfListingMaybe(listingId, stockUpdate, dispatch).then(() => response);
       })
@@ -262,12 +271,23 @@ export const requestUpdateListing = (tab, data, config) => (dispatch, getState, 
 // Publish Listing //
 /////////////////////
 
-const publishListingPayloadCreator = ({ listingId }, { dispatch, rejectWithValue, extra: sdk }) => {
+const publishListingPayloadCreator = (
+  { listingId },
+  { dispatch, getState, rejectWithValue, extra: sdk }
+) => {
   return sdk.ownListings
     .publishDraft({ id: listingId }, { expand: true })
     .then(response => {
       // Add the created listing to the marketplace data
       dispatch(addMarketplaceEntities(response));
+
+      // Keep the provider's profile-listing state in sync so it can be read without a
+      // listings query (e.g. from ProfilePage).
+      const userType = currentUserTypeSelector(getState());
+      if (userType === 'provider') {
+        dispatch(updateProfile({ publicData: { listingState: 'published' } }));
+      }
+
       return response;
     })
     .catch(e => {

@@ -446,6 +446,7 @@ export const AuthenticationPageComponent = props => {
           {showEmailVerification ? (
             <EmailVerificationInfo
               name={user.attributes.profile.firstName}
+              userType={user.attributes.profile?.publicData?.userType}
               email={<span className={css.email}>{user.attributes.email}</span>}
               onResendVerificationEmail={onResendVerificationEmail}
               resendErrorMessage={

@@ -8,7 +8,7 @@ import { useConfiguration } from '../../context/configurationContext';
 import { FormattedMessage, useIntl } from '../../util/reactIntl';
 import { pathByRouteName } from '../../util/routes';
 import { hasPermissionToPostListings, showCreateListingLinkForUser } from '../../util/userHelpers';
-import { NO_ACCESS_PAGE_POST_LISTINGS } from '../../util/urlHelpers';
+import { NO_ACCESS_PAGE_POST_LISTINGS, JOBS_LISTING_TYPE } from '../../util/urlHelpers';
 import { propTypes } from '../../util/types';
 import { isErrorNoPermissionToPostListings } from '../../util/errors';
 import { isScrollingDisabled, manageDisableScrolling } from '../../ducks/ui.duck';
@@ -55,7 +55,11 @@ const Heading = props => {
         <FormattedMessage id="ManageListingsPage.noResults" />
       </H3>
       <p className={css.createListingParagraph}>
-        <NamedLink className={css.createListingLink} name="NewListingPage">
+        <NamedLink
+          className={css.createListingLink}
+          name="NewListingPage"
+          to={{ search: `?listingType=${JOBS_LISTING_TYPE}` }}
+        >
           <FormattedMessage id="ManageListingsPage.createListing" />
         </NamedLink>
       </p>

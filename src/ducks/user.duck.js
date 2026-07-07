@@ -403,3 +403,6 @@ export const hasCurrentUserErrors = state => {
     user.currentUserHasOrdersError
   );
 };
+
+export const currentUserTypeSelector = state =>
+  state.user.currentUser?.attributes.profile?.publicData?.userType;

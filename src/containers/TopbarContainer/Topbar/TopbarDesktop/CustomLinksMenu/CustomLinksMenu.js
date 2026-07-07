@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
+import { JOBS_LISTING_TYPE } from '../../../../../util/urlHelpers';
 import PriorityLinks, { CreateListingMenuLink } from './PriorityLinks';
 import LinksMenu from './LinksMenu';
 
@@ -15,6 +16,7 @@ const createListingLinkConfigMaybe = (intl, showLink) =>
           type: 'internal',
           route: {
             name: 'NewListingPage',
+            to: { search: `?listingType=${JOBS_LISTING_TYPE}` },
           },
           highlight: true,
         },

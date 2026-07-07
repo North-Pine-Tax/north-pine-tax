@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FormattedMessage } from '../../util/reactIntl';
+import { PROVIDER_LISTING_TYPE } from '../../util/urlHelpers';
 
 import { Heading, NamedLink, IconEmailSent, InlineTextButton, IconClose } from '../../components';
 
@@ -9,11 +10,18 @@ import css from './AuthenticationPage.module.css';
 const EmailVerificationInfo = props => {
   const {
     name,
+    userType,
     email,
     onResendVerificationEmail,
     resendErrorMessage,
     sendVerificationEmailInProgress,
   } = props;
+
+  const isProvider = userType === 'provider';
+  const closeLinkName = isProvider ? 'NewListingPage' : 'ProfileSettingsPage';
+  const closeLinkToMaybe = isProvider
+    ? { to: { search: `?listingType=${PROVIDER_LISTING_TYPE}` } }
+    : {};
 
   const resendEmailLink = (
     <InlineTextButton rootClassName={css.modalHelperLink} onClick={onResendVerificationEmail}>
@@ -29,7 +37,7 @@ const EmailVerificationInfo = props => {
 
   return (
     <div className={css.content}>
-      <NamedLink className={css.verifyClose} name="ProfileSettingsPage">
+      <NamedLink className={css.verifyClose} name={closeLinkName} {...closeLinkToMaybe}>
         <span className={css.closeText}>
           <FormattedMessage id="AuthenticationPage.verifyEmailClose" />
         </span>

@@ -1,0 +1,26 @@
+@import '../../../../styles/customMediaQueries.css';
+
+/* Matches the spacing rhythm of the other fields in EditListingDetailsForm
+   (see .title/.description/.listingTypeSelect in EditListingDetailsForm.module.css),
+   instead of ProfileSettingsForm's page-level section spacing. */
+.section {
+  margin-bottom: 24px;
+
+  @media (--viewportMedium) {
+    margin-bottom: 32px;
+  }
+}
+
+.avatarWrapper {
+  margin-top: 0;
+  margin-bottom: 18px;
+
+  @media (--viewportMedium) {
+    margin-bottom: 16px;
+  }
+}
+
+.nameRow {
+  display: flex;
+  justify-content: space-between;
+}

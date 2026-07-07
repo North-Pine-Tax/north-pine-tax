@@ -199,7 +199,7 @@ export const isUserAuthorized = currentUser => currentUser?.attributes?.state ==
  * @param {*} currentUser API entity
  * @returns a single user type configuration, if found
  */
-const getCurrentUserTypeConfig = (config, currentUser) => {
+export const getCurrentUserTypeConfig = (config, currentUser) => {
   const { userTypes } = config.user;
   return userTypes.find(
     ut => ut.userType === currentUser?.attributes?.profile?.publicData?.userType

@@ -10,6 +10,7 @@ import {
   NO_ACCESS_PAGE_USER_PENDING_APPROVAL,
   NO_ACCESS_PAGE_VIEW_LISTINGS,
   PROFILE_PAGE_PENDING_APPROVAL_VARIANT,
+  createSlug,
 } from '../../util/urlHelpers';
 import {
   isErrorNoViewingPermission,
@@ -388,6 +389,9 @@ export const ProfilePageComponent = props => {
   const isCurrentUser = currentUser?.id && currentUser?.id?.uuid === pathParams.id;
   const profileUser = useCurrentUser ? currentUser : user;
   const { bio, displayName, publicData, metadata } = profileUser?.attributes?.profile || {};
+  // Providers don't get a ProfilePage of their own - their listing is their profile -
+  // so anyone landing here for a provider is redirected to that listing instead.
+  const isProviderProfile = publicData?.userType === 'provider';
   const { userFields } = config.user;
   const isPrivateMarketplace = config.accessControl.marketplace.private === true;
   const isUnauthorizedUser = currentUser && !isUserAuthorized(currentUser);
@@ -447,6 +451,17 @@ export const ProfilePageComponent = props => {
     // This preview of the profile page is not rendered on server-side
     // and the first pass on client-side should render the same UI.
     return null;
+  } else if (!isPreview && isProviderProfile) {
+    const { profileListingId, profileTitle } = publicData || {};
+    if (profileListingId) {
+      return (
+        <NamedRedirect
+          name="ListingPage"
+          params={{ id: profileListingId, slug: createSlug(profileTitle || '') }}
+        />
+      );
+    }
+    return <NamedRedirect name="LandingPage" />;
   }
 
   // This is rendering normal profile page (not preview for pending-approval)

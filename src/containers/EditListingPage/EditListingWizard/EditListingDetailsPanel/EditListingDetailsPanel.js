@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
 // Import util modules
@@ -16,6 +17,8 @@ import {
   pickCategoryFields,
 } from '../../../../util/fieldHelpers';
 import { isBookingProcessAlias } from '../../../../transactions/transaction';
+import { ensureCurrentUser } from '../../../../util/data';
+import { getCurrentUserTypeConfig } from '../../../../util/userHelpers';
 
 // Import shared components
 import { H3, ListingLink } from '../../../../components';
@@ -24,6 +27,10 @@ import { H3, ListingLink } from '../../../../components';
 import ErrorMessage from './ErrorMessage';
 import EditListingDetailsForm from './EditListingDetailsForm';
 import css from './EditListingDetailsPanel.module.css';
+
+// Profile fields (avatar, name, displayName, bio) rendered inside EditListingDetailsForm
+// are saved to the current user, not to the listing, so they go through their own action.
+import { updateProfile } from '../../../ProfileSettingsPage/ProfileSettingsPage.duck';
 
 /**
  * Get listing configuration. For existing listings, it is stored to publicData.
@@ -252,6 +259,7 @@ const getInitialValues = (
   return {
     title,
     description,
+    businessNo: privateData?.businessNo,
     ...nestedCategories,
     // Transaction type info: listingType, transactionProcessAlias, unitType
     ...getTransactionInfo({ listingTypes, existingListingTypeInfo, preselectedListingType }),
@@ -311,12 +319,37 @@ const EditListingDetailsPanel = props => {
     intl,
   } = props;
 
+  const dispatch = useDispatch();
+  const currentUser = useSelector(reduxState => reduxState.user?.currentUser);
+  const profileImageUploadState = useSelector(reduxState => reduxState.ProfileSettingsPage.image);
+
   const classes = classNames(rootClassName || css.root, className);
   const { publicData, state } = listing?.attributes || {};
   const listingTypes = config.listing.listingTypes;
   const listingFields = config.listing.listingFields;
   const listingCategories = config.categoryConfiguration.categories;
   const categoryKey = config.categoryConfiguration.key;
+
+  // Initial values for the profile fields (avatar, name, displayName, bio) that
+  // EditListingProfileFields renders inside EditListingDetailsForm.
+  const user = ensureCurrentUser(currentUser);
+  const {
+    firstName,
+    lastName,
+    displayName,
+    bio,
+    publicData: userPublicData,
+  } = user?.attributes?.profile || {};
+  const isProviderUserType = userPublicData?.userType === 'provider';
+  const userTypeConfig = getCurrentUserTypeConfig(config, currentUser);
+  const isDisplayNameIncluded = userTypeConfig?.defaultUserFields?.displayName !== false;
+  const displayNameMaybe = isDisplayNameIncluded && displayName ? { displayName } : {};
+  const profileInitialValues = {
+    firstName,
+    lastName,
+    ...displayNameMaybe,
+    bio,
+  };
 
   const { hasExistingListingType, existingListingTypeInfo } = hasSetListingType(publicData);
   const hasValidExistingListingType =
@@ -337,18 +370,29 @@ const EditListingDetailsPanel = props => {
   // Note: it's only called if listing type is not already saved to publicData.
   useEffect(() => {
     if (!hasExistingListingType && validPreselectedListingType && onListingTypeChange) {
-      onListingTypeChange(validPreselectedListingType);
+      // EditListingWizard's state expects the flattened { listingType, transactionProcessAlias,
+      // unitType } shape (as produced by getTransactionInfo), not the raw listingTypes config
+      // entry (which nests process/alias/unitType under transactionType).
+      onListingTypeChange(
+        getTransactionInfo({
+          listingTypes: [validPreselectedListingType],
+          existingListingTypeInfo: {},
+        })
+      );
     }
   }, []);
 
-  const initialValues = getInitialValues(
-    props,
-    existingListingTypeInfo,
-    listingTypes,
-    listingFields,
-    listingCategories,
-    categoryKey
-  );
+  const initialValues = {
+    ...getInitialValues(
+      props,
+      existingListingTypeInfo,
+      listingTypes,
+      listingFields,
+      listingCategories,
+      categoryKey
+    ),
+    ...profileInitialValues,
+  };
 
   const noListingTypesSet = listingTypes?.length === 0;
   const hasListingTypesSet = listingTypes?.length > 0;
@@ -392,8 +436,45 @@ const EditListingDetailsPanel = props => {
               listingType,
               transactionProcessAlias,
               unitType,
+              firstName,
+              lastName,
+              displayName,
+              bio: rawBio,
+              businessNo,
               ...rest
             } = values;
+
+            // Providers don't fill in their own title/description (those fields are hidden
+            // for them in EditListingDetailsForm) - the listing uses their name and bio instead.
+            const listingTitle = isProviderUserType
+              ? `${firstName} ${lastName}`.trim()
+              : title.trim();
+            const listingDescription = isProviderUserType ? rawBio || '' : description;
+
+            if (isProviderUserType) {
+              // Profile fields (avatar, name, displayName, bio) are saved to the current user,
+              // not to the listing, so they're dispatched separately from the listing update
+              // below. This only applies to providers: customers don't get these fields folded
+              // into their listing, so there's nothing extra to save here for them.
+              const displayNameMaybe = displayName
+                ? { displayName: displayName.trim() }
+                : { displayName: null };
+              const profile = {
+                firstName: firstName.trim(),
+                lastName: lastName.trim(),
+                ...displayNameMaybe,
+                bio: rawBio || '',
+                publicData: {
+                  profileTitle: listingTitle,
+                  listingState: state || 'draft',
+                },
+              };
+              const profileImageIdMaybe =
+                profileImageUploadState?.imageId && profileImageUploadState?.file
+                  ? { profileImageId: profileImageUploadState.imageId }
+                  : {};
+              dispatch(updateProfile({ ...profile, ...profileImageIdMaybe }));
+            }
 
             const nestedCategories = pickCategoryFields(rest, categoryKey, 1, listingCategories);
             // Remove old categories by explicitly saving null for them.
@@ -417,8 +498,8 @@ const EditListingDetailsPanel = props => {
             );
             // New values for listing attributes
             const updateValues = {
-              title: title.trim(),
-              description,
+              title: listingTitle,
+              description: listingDescription,
               publicData: {
                 listingType,
                 transactionProcessAlias,
@@ -426,7 +507,12 @@ const EditListingDetailsPanel = props => {
                 ...cleanedNestedCategories,
                 ...publicListingFields,
               },
-              privateData: privateListingFields,
+              privateData: {
+                ...privateListingFields,
+                // businessNo is mandatory and only collected from providers - see the
+                // isProviderUserType-gated field in EditListingDetailsForm.
+                ...(isProviderUserType ? { businessNo } : {}),
+              },
               ...setNoAvailabilityForUnbookableListings(transactionProcessAlias),
             };
 

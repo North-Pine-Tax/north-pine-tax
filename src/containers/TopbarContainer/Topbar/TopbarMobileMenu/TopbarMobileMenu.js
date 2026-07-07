@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { ACCOUNT_SETTINGS_PAGES } from '../../../../routing/routeConfiguration';
 import { FormattedMessage } from '../../../../util/reactIntl';
 import { ensureCurrentUser } from '../../../../util/data';
+import { getProfileListingRedirectProps, JOBS_LISTING_TYPE } from '../../../../util/urlHelpers';
 
 import {
   AvatarLarge,
@@ -96,7 +97,11 @@ const TopbarMobileMenu = props => {
   });
 
   const createListingsLinkMaybe = showCreateListingsLink ? (
-    <NamedLink className={css.createNewListingLink} name="NewListingPage">
+    <NamedLink
+      className={css.createNewListingLink}
+      name="NewListingPage"
+      to={{ search: `?listingType=${JOBS_LISTING_TYPE}` }}
+    >
       <FormattedMessage id="TopbarMobileMenu.newListingLink" />
     </NamedLink>
   ) : null;
@@ -162,6 +167,34 @@ const TopbarMobileMenu = props => {
     </li>
   ) : null;
 
+  const publicData = currentUser?.attributes?.profile?.publicData || {};
+  const isProviderUserType = publicData.userType === 'provider';
+  const isProfileListingPublished = publicData.listingState === 'published';
+  const manageProfileRedirectProps = isProviderUserType
+    ? getProfileListingRedirectProps(publicData)
+    : null;
+
+  const yourProfileLinkMaybe =
+    isProviderUserType && isProfileListingPublished ? (
+      <li className={classNames(css.navigationLink, currentPageClass('ListingPageCanonical'))}>
+        <NamedLink name="ListingPageCanonical" params={{ id: publicData.profileListingId }}>
+          <FormattedMessage id="TopbarMobileMenu.yourProfileLink" />
+        </NamedLink>
+      </li>
+    ) : null;
+
+  const manageProfileLinkMaybe = isProviderUserType ? (
+    <li className={classNames(css.navigationLink, currentPageClass('EditListingPage'))}>
+      <NamedLink
+        name={manageProfileRedirectProps.name}
+        params={manageProfileRedirectProps.params}
+        to={{ search: manageProfileRedirectProps.search }}
+      >
+        <FormattedMessage id="TopbarMobileMenu.manageProfileLink" />
+      </NamedLink>
+    </li>
+  ) : null;
+
   return (
     <div className={css.root}>
       <AvatarLarge className={css.avatar} user={currentUser} />
@@ -180,6 +213,8 @@ const TopbarMobileMenu = props => {
               {notificationCountBadge}
             </NamedLink>
           </li>
+          {yourProfileLinkMaybe}
+          {manageProfileLinkMaybe}
           {manageListingsLinkMaybe}
           <li className={classNames(css.navigationLink, currentPageClass('ProfileSettingsPage'))}>
             <NamedLink name="ProfileSettingsPage">

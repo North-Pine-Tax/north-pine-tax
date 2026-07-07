@@ -1449,5 +1449,12 @@
   "UserNav.accountSettings": "Account settings",
   "UserNav.profileSettings": "Profile settings",
   "UserNav.screenreader.userNav": "User profile navigation",
-  "UserNav.yourListings": "Your listings"
+  "UserNav.yourListings": "Your listings",
+  "TopbarDesktop.manageProfileLink": "Manage profile",
+  "TopbarDesktop.yourProfileLink": "Your profile",
+  "TopbarMobileMenu.manageProfileLink": "Manage profile",
+  "TopbarMobileMenu.yourProfileLink": "Your profile",
+  "EditListingDetailsForm.businessNoLabel": "Business EIN or license number",
+  "EditListingDetailsForm.businessNoRequired": "You need to provide a business EIN or license number.",
+  "EditListingDetailsForm.businessNoPlaceholder": "e.g. 12-3456789"
 }

@@ -76,6 +76,59 @@ export const createSlug = str => {
   return slug.length > 0 ? slug : 'no-slug';
 };
 
+// Nil UUID, used as the placeholder listing id for the "create new listing" flow.
+// (Matches the value routeConfiguration.js's NewListingPage route redirects to.)
+const NIL_LISTING_ID = '00000000-0000-0000-0000-000000000000';
+
+// Provider users only ever have one listing type: this one. EditListingDetailsPanel
+// preselects it from the ?listingType= query param when starting a new listing.
+export const PROVIDER_LISTING_TYPE = 'accountants';
+
+// The listing type used by the generic "Post a new listing" topbar links (posted by
+// non-providers), preselected the same way as PROVIDER_LISTING_TYPE above.
+export const JOBS_LISTING_TYPE = 'jobs';
+
+/**
+ * Get the route name/params/search for linking a provider to their profile listing:
+ * their existing listing (draft or published) if they've already created one,
+ * otherwise the "new listing" flow (preselecting PROVIDER_LISTING_TYPE).
+ *
+ * @param {Object} publicData - the current user's public data
+ * @param {string} [publicData.profileTitle] - title of the provider's profile listing
+ * @param {string} [publicData.profileListingId] - id (uuid) of the provider's profile listing
+ * @param {string} [publicData.listingState] - state of the provider's profile listing
+ * @returns {{name: string, params: Object, search: string?}} route name/params/search for
+ * NamedLink (via its `to` prop) or NamedRedirect
+ */
+export const getProfileListingRedirectProps = publicData => {
+  const { profileTitle, profileListingId, listingState } = publicData || {};
+  const redirectProps = profileListingId
+    ? {
+        name: 'EditListingPage',
+        params: {
+          id: profileListingId,
+          slug: createSlug(profileTitle),
+          tab: 'details',
+          type:
+            listingState === LISTING_PAGE_PARAM_TYPE_DRAFT
+              ? LISTING_PAGE_PARAM_TYPE_DRAFT
+              : LISTING_PAGE_PARAM_TYPE_EDIT,
+        },
+      }
+    : {
+        name: 'EditListingPage',
+        params: {
+          slug: 'draft',
+          id: NIL_LISTING_ID,
+          type: LISTING_PAGE_PARAM_TYPE_NEW,
+          tab: 'details',
+        },
+        search: `?listingType=${PROVIDER_LISTING_TYPE}`,
+      };
+
+  return redirectProps;
+};
+
 /**
  * Parse float from a string
  *

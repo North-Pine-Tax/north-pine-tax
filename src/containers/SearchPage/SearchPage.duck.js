@@ -432,7 +432,7 @@ export const loadData = (params, search, config) => (dispatch, getState, sdk) =>
       ...listingTypeVariantMaybe,
       page,
       perPage: RESULT_PAGE_SIZE,
-      include: ['author', 'images'],
+      include: ['author', 'author.profileImage', 'images'],
       'fields.listing': [
         'title',
         'geolocation',
@@ -456,6 +456,10 @@ export const loadData = (params, search, config) => (dispatch, getState, sdk) =>
         'variants.scaled-medium',
         `variants.${variantPrefix}`,
         `variants.${variantPrefix}-2x`,
+        // Provider listings show the author's avatar instead of listing images (see
+        // ListingCard.js), which uses these "square-*" variants.
+        'variants.square-small',
+        'variants.square-small2x',
       ],
       ...createImageVariantConfig(`${variantPrefix}`, 400, aspectRatio),
       ...createImageVariantConfig(`${variantPrefix}-2x`, 800, aspectRatio),

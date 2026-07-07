@@ -165,10 +165,11 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       path: '/l/new',
       name: 'NewListingPage',
       auth: true,
-      component: () => (
+      component: ({ location }) => (
         <NamedRedirect
           name="EditListingPage"
           params={{ slug: draftSlug, id: draftId, type: 'new', tab: 'details' }}
+          search={location.search}
         />
       ),
     },

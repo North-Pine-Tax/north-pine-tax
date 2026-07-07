@@ -28,8 +28,8 @@ import css from './ProfileSettingsForm.module.css';
 const ACCEPT_IMAGES = 'image/*';
 const UPLOAD_CHANGE_DELAY = 2000; // Show spinner so that browser has time to load img srcset
 
-const DisplayNameMaybe = props => {
-  const { userTypeConfig, intl } = props;
+export const DisplayNameMaybe = props => {
+  const { userTypeConfig, intl, hideLabel = false, sectionClassName } = props;
 
   const isDisabled = userTypeConfig?.defaultUserFields?.displayName === false;
   if (isDisabled) {
@@ -50,10 +50,12 @@ const DisplayNameMaybe = props => {
     : {};
 
   return (
-    <div className={css.sectionContainer}>
-      <H4 as="h2" className={css.sectionTitle}>
-        <FormattedMessage id="ProfileSettingsForm.displayNameHeading" />
-      </H4>
+    <div className={sectionClassName || css.sectionContainer}>
+      {hideLabel ? null : (
+        <H4 as="h2" className={css.sectionTitle}>
+          <FormattedMessage id="ProfileSettingsForm.displayNameHeading" />
+        </H4>
+      )}
       <FieldTextInput
         className={css.row}
         type="text"
@@ -67,9 +69,11 @@ const DisplayNameMaybe = props => {
         })}
         {...validateMaybe}
       />
-      <p className={css.extraInfo}>
-        <FormattedMessage id="ProfileSettingsForm.displayNameInfo" />
-      </p>
+      {hideLabel ? null : (
+        <p className={css.extraInfo}>
+          <FormattedMessage id="ProfileSettingsForm.displayNameInfo" />
+        </p>
+      )}
     </div>
   );
 };

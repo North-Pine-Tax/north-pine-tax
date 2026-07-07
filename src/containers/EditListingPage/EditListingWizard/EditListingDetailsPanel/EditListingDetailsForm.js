@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
+import { useSelector } from 'react-redux';
 import arrayMutators from 'final-form-arrays';
 import classNames from 'classnames';
 
@@ -25,6 +26,7 @@ import {
   CustomExtendedDataField,
 } from '../../../../components';
 // Import modules from this directory
+import EditListingProfileFields from './EditListingProfileFields';
 import css from './EditListingDetailsForm.module.css';
 
 const TITLE_MAX_LENGTH = 60;
@@ -312,6 +314,7 @@ const EditListingDetailsForm = props => (
   <FinalForm
     {...props}
     mutators={{ ...arrayMutators }}
+    keepDirtyOnReinitialize
     render={formRenderProps => {
       const {
         autoFocus,
@@ -343,6 +346,13 @@ const EditListingDetailsForm = props => (
       const intl = useIntl();
       const { listingType, transactionProcessAlias, unitType } = values;
       const [allCategoriesChosen, setAllCategoriesChosen] = useState(false);
+
+      // Providers fill in their name/bio (via EditListingProfileFields) instead of a
+      // separate title/description - EditListingDetailsPanel derives title/description
+      // from those fields on submit, so the fields themselves are hidden here for providers.
+      const currentUser = useSelector(reduxState => reduxState.user?.currentUser);
+      const isProviderUserType =
+        currentUser?.attributes?.profile?.publicData?.userType === 'provider';
 
       const titleRequiredMessage = intl.formatMessage({
         id: 'EditListingDetailsForm.titleRequired',
@@ -408,6 +418,8 @@ const EditListingDetailsForm = props => (
             intl={intl}
           />
 
+          {isProviderUserType && <EditListingProfileFields formId={formId} />}
+
           {showCategories && isCompatibleCurrency && (
             <FieldSelectCategory
               values={values}
@@ -420,7 +432,7 @@ const EditListingDetailsForm = props => (
             />
           )}
 
-          {showTitle && isCompatibleCurrency && (
+          {showTitle && isCompatibleCurrency && !isProviderUserType && (
             <FieldTextInput
               id={`${formId}title`}
               name="title"
@@ -436,7 +448,7 @@ const EditListingDetailsForm = props => (
             />
           )}
 
-          {showDescription && isCompatibleCurrency && (
+          {showDescription && isCompatibleCurrency && !isProviderUserType && (
             <FieldTextInput
               id={`${formId}description`}
               name="description"
@@ -461,6 +473,22 @@ const EditListingDetailsForm = props => (
               selectedCategories={pickSelectedCategories(values)}
               formId={formId}
               intl={intl}
+            />
+          )}
+
+          {isProviderUserType && showListingFields && (
+            <FieldTextInput
+              id={`${formId}businessNo`}
+              name="businessNo"
+              className={css.formMargins}
+              type="text"
+              label={intl.formatMessage({ id: 'EditListingDetailsForm.businessNoLabel' })}
+              placeholder={intl.formatMessage({
+                id: 'EditListingDetailsForm.businessNoPlaceholder',
+              })}
+              validate={required(
+                intl.formatMessage({ id: 'EditListingDetailsForm.businessNoRequired' })
+              )}
             />
           )}
 

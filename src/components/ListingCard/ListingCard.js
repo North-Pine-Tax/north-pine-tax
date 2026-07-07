@@ -8,7 +8,7 @@ import { useConfiguration } from '../../context/configurationContext';
 import { useIntl } from '../../util/reactIntl';
 import { requireListingImage } from '../../util/configHelpers';
 import { lazyLoadWithDimensions } from '../../util/uiHelpers';
-import { createSlug } from '../../util/urlHelpers';
+import { createSlug, PROVIDER_LISTING_TYPE } from '../../util/urlHelpers';
 
 import {
   AspectRatioWrapper,
@@ -55,9 +55,16 @@ const ListingCardImage = props => {
     lazyLoadImage,
   } = props;
 
-  const firstImage = listing?.images?.[0] || null;
+  // Providers' listings are their profile: show their avatar instead of listing images.
+  // Profile images use "square-*" variants (see Avatar.js), not the listing-card variants
+  // requested for regular listing images, so the two need different variant prefixes.
+  const isProviderListing = listing?.attributes?.publicData?.listingType === PROVIDER_LISTING_TYPE;
+  const firstImage = isProviderListing ? listing?.author?.profileImage : listing?.images?.[0];
+  const imageVariantPrefix = isProviderListing ? 'square' : variantPrefix;
   const variants = firstImage
-    ? Object.keys(firstImage?.attributes?.variants).filter(k => k.startsWith(variantPrefix))
+    ? Object.keys(firstImage?.attributes?.variants || {}).filter(k =>
+        k.startsWith(imageVariantPrefix)
+      )
     : [];
 
   const aspectRatioClass = aspectRatioClassName || css.aspectRatioWrapper;
