@@ -33,40 +33,48 @@
   --colorBannedLight: var(--marketplaceColorLight);
   --colorBannedDark: var(--marketplaceColor);
 
+  /* ================ North Pine brand palette ================ */
+  --colorBrandPrimary: #234033; /* Deep Pine Green — headers, buttons, footer, trust */
+  --colorBrandSecondary: #f7f5f1; /* Warm Cream — page backgrounds, sections, cards */
+  --colorBrandAccent: #b08d57; /* Muted Brass — CTA hover, icons, highlights (sparingly) */
+  --colorBrandSupporting: #34495e; /* Slate Navy — secondary buttons, borders, dashboards */
+  --colorBrandText: #2c2c2c; /* Charcoal — main text */
+
   /* B&W and Grey palette */
 
   --colorWhite: hsl(0 0% 100%);
-  --colorGrey50: hsl(240 3% 98%);
-  --colorGrey100: hsl(240 3% 90%);
-  --colorGrey200: hsl(240 3% 80%);
-  --colorGrey300: hsl(240 3% 70%);
-  --colorGrey400: hsl(240 3% 60%);
-  --colorGrey500: hsl(240 3% 50%);
-  --colorGrey600: hsl(240 3% 40%);
-  --colorGrey700: hsl(240 3% 30%);
-  --colorGrey800: hsl(240 3% 20%);
-  --colorGrey900: hsl(240 3% 10%);
+  --colorGrey50: #f7f5f1; /* Warm Cream — aligns page/section backgrounds with brand */
+  --colorGrey100: hsl(40 12% 90%);
+  --colorGrey200: hsl(40 8% 80%);
+  --colorGrey300: hsl(40 6% 70%);
+  --colorGrey400: hsl(220 8% 60%);
+  --colorGrey500: hsl(220 10% 50%);
+  --colorGrey600: hsl(220 12% 40%);
+  --colorGrey700: #2c2c2c; /* Charcoal — primary body text */
+  --colorGrey800: hsl(0 0% 18%);
+  --colorGrey900: hsl(0 0% 10%);
   --colorBlack: hsl(0 0% 0%);
 
   --colorLightTransparent: rgba(255, 255, 255, 0.65);
 
   /**
-  * Marketplace color comes by default from src/config/brandingConfig.js
+  * Marketplace color comes by default from src/config/configBranding.js
   * It overwrites these CSS Properties.
   * In the future, we are planning to bring more --marketplace* CSS Properties
   * from hosted assets, which means that they could be managed through Console.
   */
-  --marketplaceColor: #6938ef; /* hsl(256, 85%, 58%) */
-  --marketplaceColorLight: #4a12e2; /* hsl(256, 85%, 48%) */
-  --marketplaceColorDark: #8d68f3; /* hsl(256, 85%, 68% */
+  --marketplaceColor: #234033; /* Deep Pine Green */
+  --marketplaceColorLight: #2f5644; /* +~10% lightness */
+  --marketplaceColorDark: #1a3026; /* -~10% lightness */
 
   /** 
    * The fill color used by <PrimaryButton>
    * These might be overwritten by values from hosted assets
+   * Hover uses Muted Brass per brand guidelines
    */
-  --colorPrimaryButton: #138041;
-  --colorPrimaryButtonDark: #0d542a;
-  --colorPrimaryButtonLight: #1aad57;
+  --colorPrimaryButton: #234033;
+  --colorPrimaryButtonDark: #b08d57; /* Muted Brass — CTA hover */
+  --colorPrimaryButtonLight: #2f5644;
 
   /** 
    * The fill color used by <SecondaryButton>
@@ -74,6 +82,8 @@
   --colorSecondaryButton: var(--colorWhite);
   --colorSecondaryButtonDark: var(--colorWhite);
   --colorSecondaryButtonLight: var(--colorWhite);
+  --colorSecondaryButtonBorder: var(--colorBrandSupporting);
+  --colorSecondaryButtonText: var(--colorBrandSupporting);
 
   /**
    * Colors used for the user inbox item status
@@ -83,8 +93,10 @@
   --colorStatusFinalState: var(--colorGrey600);
 
   /* ================ Font ================ */
-  --fontFamily: -apple-system, BlinkMacSystemFont, 'Inter', Helvetica, Arial, sans-serif,
+  /* Body: Inter | Headings: Merriweather */
+  --fontFamily: 'Inter', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --fontFamilyHeading: 'Merriweather', Georgia, 'Times New Roman', serif;
 
   --fontWeightRegular: 400;
   --fontWeightMedium: 500;
@@ -100,8 +112,8 @@
   /**
    * Note: changing --contentMaxWidth does not affect layouts with LayoutSideNavigation or search pages.
    */
-  --contentMaxWidth: 1056px;
-  --contentMaxWidthPages: 1120px; /* calc(Global width (1056px) + (Horizontal padding (32px) * 2) */
+  --contentMaxWidth: 1280px;
+  --contentMaxWidthPages: 1280px; /* calc(Global width (1056px) + (Horizontal padding (32px) * 2) */
 
   /* Multiples of mobile and desktop spacing units should be used with margins and paddings. */
   --spacingUnit: 6px;
@@ -213,6 +225,7 @@
 
 body {
   font-family: var(--fontFamily);
+  color: var(--colorBrandText);
 
   /* A non-standard feature: https://developer.mozilla.org/en-US/docs/Web/CSS/font-smooth */
   -webkit-font-smoothing: antialiased;
@@ -221,7 +234,7 @@ body {
   text-rendering: optimizeSpeed;
   font-optical-sizing: auto;
 
-  background-color: var(--colorGrey50);
+  background-color: var(--colorBrandSecondary);
 }
 
 ::selection {
@@ -267,9 +280,11 @@ a:hover {
 }
 
 h1 {
+  font-family: var(--fontFamilyHeading);
   font-size: 24px;
   line-height: 24px;
   font-weight: var(--fontWeightBlack);
+  color: var(--colorBrandPrimary);
   padding: 3px 0 3px 0;
   /* margin-top + n * line-height + margin-bottom => x * 6px */
   margin-top: 18px;
@@ -286,9 +301,11 @@ h1 {
 }
 
 h2 {
+  font-family: var(--fontFamilyHeading);
   font-size: 21px;
   line-height: 24px;
   font-weight: var(--fontWeightBold);
+  color: var(--colorBrandPrimary);
 
   padding: 4px 0 2px 0;
   /* x * 6px */
@@ -306,9 +323,11 @@ h2 {
 }
 
 h3 {
+  font-family: var(--fontFamilyHeading);
   font-weight: var(--fontWeightBold);
   font-size: 18px;
   line-height: 24px;
+  color: var(--colorBrandPrimary);
   /* x * 6px */
   margin-top: 18px;
   margin-bottom: 12px;
@@ -324,9 +343,11 @@ h3 {
 }
 
 h4 {
+  font-family: var(--fontFamilyHeading);
   font-weight: var(--fontWeightBold);
   font-size: 16px;
   line-height: 30px;
+  color: var(--colorBrandPrimary);
   padding: 5px 0 1px 0;
   /* x * 6px */
   margin-top: 12px;
@@ -343,9 +364,11 @@ h4 {
 }
 
 h5 {
+  font-family: var(--fontFamilyHeading);
   font-weight: var(--fontWeightMedium);
   font-size: 14px;
   line-height: 18px;
+  color: var(--colorBrandPrimary);
   /* x * 6px */
   padding: 3px 0 3px 0;
   margin-top: 12px;
@@ -361,9 +384,11 @@ h5 {
 }
 
 h6 {
+  font-family: var(--fontFamilyHeading);
   font-weight: var(--fontWeightBold);
   font-size: 12px;
   line-height: 18px;
+  color: var(--colorBrandPrimary);
   text-transform: uppercase;
   /* x * 6px */
   padding: 4px 0 2px 0;
@@ -415,7 +440,7 @@ pre {
 
 html {
   /* font is set earlier */
-  color: var(--colorGrey700);
+  color: var(--colorBrandText);
   padding: 0;
   margin: 0;
 }
@@ -626,9 +651,11 @@ textarea {
 }
 
 .h1 {
+  font-family: var(--fontFamilyHeading);
   font-weight: var(--fontWeightBlack);
   font-size: 24px;
   line-height: 24px;
+  color: var(--colorBrandPrimary);
 
   padding: 3px 0 3px 0;
   /* margin-top + n * line-height + margin-bottom => x * 6px */
@@ -646,9 +673,11 @@ textarea {
 }
 
 .h2 {
+  font-family: var(--fontFamilyHeading);
   font-weight: var(--fontWeightBold);
   font-size: 21px;
   line-height: 24px;
+  color: var(--colorBrandPrimary);
 
   padding: 4px 0 2px 0;
   /* x * 6px */
@@ -666,9 +695,11 @@ textarea {
 }
 
 .h3 {
+  font-family: var(--fontFamilyHeading);
   font-weight: var(--fontWeightBold);
   font-size: 18px;
   line-height: 24px;
+  color: var(--colorBrandPrimary);
   /* x * 6px */
   margin-top: 18px;
   margin-bottom: 12px;
@@ -684,9 +715,11 @@ textarea {
 }
 
 .h4 {
+  font-family: var(--fontFamilyHeading);
   font-weight: var(--fontWeightBold);
   font-size: 16px;
   line-height: 30px;
+  color: var(--colorBrandPrimary);
   padding: 5px 0 1px 0;
   /* x * 6px */
   margin-top: 12px;
@@ -703,9 +736,11 @@ textarea {
 }
 
 .h5 {
+  font-family: var(--fontFamilyHeading);
   font-weight: var(--fontWeightMedium);
   font-size: 14px;
   line-height: 18px;
+  color: var(--colorBrandPrimary);
   /* x * 6px */
   padding: 3px 0 3px 0;
   margin-top: 12px;
@@ -721,9 +756,11 @@ textarea {
 }
 
 .h6 {
+  font-family: var(--fontFamilyHeading);
   font-weight: var(--fontWeightBold);
   font-size: 12px;
   line-height: 18px;
+  color: var(--colorBrandPrimary);
   text-transform: uppercase;
   /* x * 6px */
   padding: 4px 0 2px 0;
@@ -1167,12 +1204,12 @@ textarea {
   /* Secondary button has clear borders */
   border-width: 1px;
   border-style: solid;
-  border-color: var(--colorGrey100);
+  border-color: var(--colorSecondaryButtonBorder);
   border-radius: var(--borderRadiusMedium);
 
-  /* Button colors: secondary */
+  /* Button colors: secondary — Slate Navy */
   background-color: var(--colorSecondaryButton);
-  color: var(--colorGrey700);
+  color: var(--colorSecondaryButtonText);
 
   @media (--viewportMedium) {
     padding: 20px 0 20px 0;
@@ -1182,8 +1219,9 @@ textarea {
 .buttonSecondary:hover {
   outline: none;
   box-shadow: var(--boxShadowButton);
-  border-color: var(--colorGrey300);
+  border-color: var(--colorBrandAccent);
   background-color: var(--colorSecondaryButton);
+  color: var(--colorBrandAccent);
 }
 .buttonSecondary:hover {
   text-decoration: none;
@@ -1230,12 +1268,12 @@ textarea {
   /* Secondary button has clear borders */
   border-width: 1px;
   border-style: solid;
-  border-color: var(--colorGrey100);
+  border-color: var(--colorSecondaryButtonBorder);
   border-radius: var(--borderRadiusMedium);
 
-  /* Button colors: secondary */
+  /* Button colors: secondary — Slate Navy */
   background-color: var(--colorSecondaryButton);
-  color: var(--colorGrey700);
+  color: var(--colorSecondaryButtonText);
 
   @media (--viewportMedium) {
     height: 40px;
@@ -1245,8 +1283,9 @@ textarea {
 .buttonSecondaryInline:hover {
   outline: none;
   box-shadow: var(--boxShadowButton);
-  border-color: var(--colorGrey300);
+  border-color: var(--colorBrandAccent);
   background-color: var(--colorSecondaryButton);
+  color: var(--colorBrandAccent);
 }
 .buttonSecondaryInline:hover {
   text-decoration: none;

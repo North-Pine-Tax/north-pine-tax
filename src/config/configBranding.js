@@ -14,11 +14,12 @@ import twitterImage from '../assets/biketribe-twitter-sharing-600x314.jpg';
 // Note: These come from the branding asset nowadays by default.
 //       To use this built-in configuration, you need to remove the overwrite from configHelper.js (mergeBranding func)
 
-// Marketplace color.
+// Marketplace color — Deep Pine Green (North Pine brand primary).
 // This is saved as CSS Property: --marketplaceColor in src/app.js
 // Also --marketplaceColorDark and --marketplaceColorLight are generated from this one
 // by adding +/- 10% to lightness.
-export const marketplaceColor = '#7c3aed';
+// Note: Hosted branding (Console) overwrites this when present. Set mainColor to #234033 there too.
+export const marketplaceColor = '#234033';
 
 // Logo is used in Topbar on mobile and desktop, where height is the limiting factor.
 // Therefore, we strongly suggest that your image file for desktop logo is in landscape!

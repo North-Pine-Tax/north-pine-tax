@@ -3,7 +3,6 @@ import classNames from 'classnames';
 
 import { FormattedMessage } from '../../../../util/reactIntl';
 import { ACCOUNT_SETTINGS_PAGES } from '../../../../routing/routeConfiguration';
-import { getProfileListingRedirectProps } from '../../../../util/urlHelpers';
 import {
   Avatar,
   InlineTextButton,
@@ -22,21 +21,61 @@ import css from './TopbarDesktop.module.css';
 
 const SignupLink = () => {
   return (
-    <NamedLink id="signup-link" name="SignupPage" className={css.topbarLink}>
-      <span className={css.topbarLinkLabel}>
-        <FormattedMessage id="TopbarDesktop.signup" />
-      </span>
+    <NamedLink id="signup-link" name="SignupPage" className={css.signupButton}>
+      <FormattedMessage id="TopbarDesktop.signup" />
     </NamedLink>
   );
 };
 
 const LoginLink = () => {
   return (
-    <NamedLink id="login-link" name="LoginPage" className={css.topbarLink}>
-      <span className={css.topbarLinkLabel}>
-        <FormattedMessage id="TopbarDesktop.login" />
+    <NamedLink id="login-link" name="LoginPage" className={css.loginButton}>
+      <FormattedMessage id="TopbarDesktop.login" />
+    </NamedLink>
+  );
+};
+
+/**
+ * Desktop topbar text nav link (matches PriorityLinks style).
+ *
+ * @param {Object} props
+ * @param {string} props.id
+ * @param {string} props.name route name
+ * @param {Object?} props.params route params
+ * @param {string} props.messageId intl message id
+ */
+const TopbarNavLink = ({ id, name, params, messageId }) => {
+  return (
+    <NamedLink id={id} name={name} params={params} className={css.navLink}>
+      <span className={css.navLinkLabel}>
+        <FormattedMessage id={messageId} />
       </span>
     </NamedLink>
+  );
+};
+
+const ExtraNavLinks = () => {
+  return (
+    <>
+      <TopbarNavLink
+        id="how-it-works-link"
+        name="CMSPage"
+        params={{ pageId: 'how-it-works' }}
+        messageId="TopbarDesktop.howItWorks"
+      />
+      <TopbarNavLink id="find-work-link" name="SearchPage" messageId="TopbarDesktop.findWork" />
+      <TopbarNavLink
+        id="find-professionals-link"
+        name="SearchPage"
+        messageId="TopbarDesktop.findProfessionals"
+      />
+      <TopbarNavLink
+        id="pricing-link"
+        name="CMSPage"
+        params={{ pageId: 'pricing' }}
+        messageId="TopbarDesktop.pricing"
+      />
+    </>
   );
 };
 
@@ -64,13 +103,6 @@ const ProfileMenu = ({ currentPage, currentUser, onLogout, showManageListingsLin
     return currentPage === page || isAccountSettingsPage ? css.currentPage : null;
   };
 
-  const publicData = currentUser?.attributes?.profile?.publicData || {};
-  const isProviderUserType = publicData.userType === 'provider';
-  const isProfileListingPublished = publicData.listingState === 'published';
-  const manageProfileRedirectProps = isProviderUserType
-    ? getProfileListingRedirectProps(publicData)
-    : null;
-
   return (
     <Menu skipFocusOnNavigation={true}>
       <MenuLabel
@@ -82,31 +114,6 @@ const ProfileMenu = ({ currentPage, currentUser, onLogout, showManageListingsLin
         <Avatar className={css.avatar} user={currentUser} disableProfileLink />
       </MenuLabel>
       <MenuContent className={css.profileMenuContent}>
-        {isProviderUserType && isProfileListingPublished ? (
-          <MenuItem key="YourProfileListingPage">
-            <NamedLink
-              className={classNames(css.menuLink, currentPageClass('ListingPageCanonical'))}
-              name="ListingPageCanonical"
-              params={{ id: publicData.profileListingId }}
-            >
-              <span className={css.menuItemBorder} />
-              <FormattedMessage id="TopbarDesktop.yourProfileLink" />
-            </NamedLink>
-          </MenuItem>
-        ) : null}
-        {isProviderUserType ? (
-          <MenuItem key="ManageProfileListingPage">
-            <NamedLink
-              className={classNames(css.menuLink, currentPageClass('EditListingPage'))}
-              name={manageProfileRedirectProps.name}
-              params={manageProfileRedirectProps.params}
-              to={{ search: manageProfileRedirectProps.search }}
-            >
-              <span className={css.menuItemBorder} />
-              <FormattedMessage id="TopbarDesktop.manageProfileLink" />
-            </NamedLink>
-          </MenuItem>
-        ) : null}
         {showManageListingsLink ? (
           <MenuItem key="ManageListingsPage">
             <NamedLink
@@ -256,8 +263,9 @@ const TopbarDesktop = props => {
 
       {inboxLinkMaybe}
       {profileMenuMaybe}
-      {signupLinkMaybe}
+      <ExtraNavLinks />
       {loginLinkMaybe}
+      {signupLinkMaybe}
     </nav>
   );
 };

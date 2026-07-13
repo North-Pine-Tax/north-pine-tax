@@ -163,6 +163,25 @@
 
   @media (--viewportLarge) {
     display: block;
+    width: 100%;
+    height: var(--topbarHeightDesktop);
+  
+    /* Layout for child components */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 12px 0 0;
+  
+    /* fill */
+    background-color: var(--colorWhite);
+  
+    /* shadows */
+    box-shadow: var(--boxShadowLight);
+  
+    @media (--viewportLarge) {
+      padding: 0 24px 0 0;
+    }
   }
 }
 

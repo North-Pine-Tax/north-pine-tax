@@ -23,6 +23,9 @@
   padding: 32px 0;
   position: relative;
   word-break: break-word;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
 
   @media (--viewportMedium) {
     padding: 64px 0;

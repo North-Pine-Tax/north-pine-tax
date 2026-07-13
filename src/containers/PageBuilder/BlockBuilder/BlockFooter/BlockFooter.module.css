@@ -39,6 +39,7 @@
     color: var(--colorGrey700);
     padding: 0px;
     list-style-position: inside;
+    margin-bottom: 8px;
   }
 
   & p {
