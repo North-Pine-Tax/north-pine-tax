@@ -36,9 +36,6 @@ const LoginLink = () => {
   );
 };
 
-
-
-
 const InboxLink = ({ notificationCount, inboxTab }) => {
   const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null;
   return (
@@ -70,7 +67,6 @@ const ProfileMenu = ({ currentPage, currentUser, onLogout, showManageListingsLin
     ? getProfileListingRedirectProps(publicData)
     : null;
 
-
   return (
     <Menu skipFocusOnNavigation={true}>
       <MenuLabel
@@ -82,7 +78,7 @@ const ProfileMenu = ({ currentPage, currentUser, onLogout, showManageListingsLin
         <Avatar className={css.avatar} user={currentUser} disableProfileLink />
       </MenuLabel>
       <MenuContent className={css.profileMenuContent}>
-      {isProviderUserType && isProfileListingPublished ? (
+        {isProviderUserType && isProfileListingPublished ? (
           <MenuItem key="YourProfileListingPage">
             <NamedLink
               className={classNames(css.menuLink, currentPageClass('ListingPageCanonical'))}
@@ -118,15 +114,17 @@ const ProfileMenu = ({ currentPage, currentUser, onLogout, showManageListingsLin
             </NamedLink>
           </MenuItem>
         ) : null}
-        <MenuItem key="ProfileSettingsPage">
-          <NamedLink
-            className={classNames(css.menuLink, currentPageClass('ProfileSettingsPage'))}
-            name="ProfileSettingsPage"
-          >
-            <span className={css.menuItemBorder} />
-            <FormattedMessage id="TopbarDesktop.profileSettingsLink" />
-          </NamedLink>
-        </MenuItem>
+        {!isProviderUserType && (
+          <MenuItem key="ProfileSettingsPage">
+            <NamedLink
+              className={classNames(css.menuLink, currentPageClass('ProfileSettingsPage'))}
+              name="ProfileSettingsPage"
+            >
+              <span className={css.menuItemBorder} />
+              <FormattedMessage id="TopbarDesktop.profileSettingsLink" />
+            </NamedLink>
+          </MenuItem>
+        )}
         <MenuItem key="AccountSettingsPage">
           <NamedLink
             className={classNames(css.menuLink, currentPageClass('AccountSettingsPage'))}
@@ -255,7 +253,7 @@ const TopbarDesktop = props => {
       />
 
       {inboxLinkMaybe}
-   
+
       {/* <ExtraNavLinks /> */}
       {loginLinkMaybe}
       {signupLinkMaybe}
