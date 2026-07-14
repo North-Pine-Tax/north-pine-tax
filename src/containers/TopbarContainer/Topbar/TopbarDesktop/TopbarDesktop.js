@@ -54,30 +54,7 @@ const TopbarNavLink = ({ id, name, params, messageId }) => {
   );
 };
 
-const ExtraNavLinks = () => {
-  return (
-    <>
-      <TopbarNavLink
-        id="how-it-works-link"
-        name="CMSPage"
-        params={{ pageId: 'how-it-works' }}
-        messageId="TopbarDesktop.howItWorks"
-      />
-      <TopbarNavLink id="find-work-link" name="SearchPage" messageId="TopbarDesktop.findWork" />
-      <TopbarNavLink
-        id="find-professionals-link"
-        name="SearchPage"
-        messageId="TopbarDesktop.findProfessionals"
-      />
-      <TopbarNavLink
-        id="pricing-link"
-        name="CMSPage"
-        params={{ pageId: 'pricing' }}
-        messageId="TopbarDesktop.pricing"
-      />
-    </>
-  );
-};
+
 
 const InboxLink = ({ notificationCount, inboxTab }) => {
   const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null;
@@ -262,10 +239,11 @@ const TopbarDesktop = props => {
       />
 
       {inboxLinkMaybe}
-      {profileMenuMaybe}
-      <ExtraNavLinks />
+   
+      {/* <ExtraNavLinks /> */}
       {loginLinkMaybe}
       {signupLinkMaybe}
+      {profileMenuMaybe}
     </nav>
   );
 };
