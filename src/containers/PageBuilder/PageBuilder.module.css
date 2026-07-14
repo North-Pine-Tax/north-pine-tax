@@ -191,6 +191,15 @@
 }
 
 :global(#popular-categories) {
+  & img{
+    width: 70px;
+    height: 70px;
+  }
+  & [class*="media"] {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto;
+  }
   &>div {
     padding-top: 0;
     max-width: 1360px;
@@ -218,6 +227,7 @@
           font-family: Inter;
           color: var(--marketplaceColor);
           margin: 0;
+          text-align: center;
         }
       }
     }

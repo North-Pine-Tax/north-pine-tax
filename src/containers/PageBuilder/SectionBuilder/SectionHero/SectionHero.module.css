@@ -83,6 +83,10 @@
 
   & .ctaIcon {
     color: var(--colorBrandAccent);
+    fill: transparent;
+    & svg{
+      fill: transparent;
+    }
   }
 
   & .ctaTitle,
@@ -104,6 +108,9 @@
 
   & .ctaIcon {
     color: var(--colorBrandAccent);
+    & svg{
+      fill: transparent;
+    }
   }
 
   & .ctaTitle {
