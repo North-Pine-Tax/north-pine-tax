@@ -67,9 +67,20 @@ const sortCustomLinks = customLinks => {
   return links.sort(compareGroups);
 };
 
-// Resolves in-app links against route configuration
-const getResolvedCustomLinks = (customLinks, routeConfiguration) => {
-  const links = Array.isArray(customLinks) ? customLinks : [];
+// Custom links that should be hidden from the topbar per user type (matched by href).
+// A logged-out visitor has no user type and sees every link.
+const HIDDEN_CUSTOM_LINKS_BY_USER_TYPE = {
+  provider: ['/s/accountants'],
+  customer: ['/s/jobs', '/pricing'],
+};
+
+// Resolves in-app links against route configuration, after dropping links that don't
+// apply to the current user's type (see HIDDEN_CUSTOM_LINKS_BY_USER_TYPE).
+const getResolvedCustomLinks = (customLinks, routeConfiguration, currentUser) => {
+  const allLinks = Array.isArray(customLinks) ? customLinks : [];
+  const userType = currentUser?.attributes?.profile?.publicData?.userType;
+  const hiddenHrefs = HIDDEN_CUSTOM_LINKS_BY_USER_TYPE[userType] || [];
+  const links = allLinks.filter(linkConfig => !hiddenHrefs.includes(linkConfig.href));
   return links.map(linkConfig => {
     const { type, href } = linkConfig;
     const isInternalLink = type === 'internal' || href.charAt(0) === '/';
@@ -235,7 +246,7 @@ const TopbarComponent = props => {
 
   // Custom links are sorted so that group="primary" are always at the beginning of the list.
   const sortedCustomLinks = sortCustomLinks(config.topbar?.customLinks);
-  const customLinks = getResolvedCustomLinks(sortedCustomLinks, routeConfiguration);
+  const customLinks = getResolvedCustomLinks(sortedCustomLinks, routeConfiguration, currentUser);
   const resolvedCurrentPage = currentPage || getResolvedCurrentPage(location, routeConfiguration);
 
   const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null;

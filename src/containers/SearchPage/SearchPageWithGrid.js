@@ -161,7 +161,7 @@ export class SearchPageComponent extends Component {
       description,
       schema,
       marketplaceCurrency,
-      listingCategories,
+      listingCategories: lC = [],
     } = getDerivedRenderData({
       intl,
       location,
@@ -174,6 +174,8 @@ export class SearchPageComponent extends Component {
       currentPathParams,
       currentUser,
     });
+
+    const listingCategories = lC?.map(elm => ({ name: elm.name, id: elm.id }));
 
     const sortBy = mode => {
       return sortConfig.active ? (
@@ -196,7 +198,7 @@ export class SearchPageComponent extends Component {
         totalItems={totalItems}
         location={location}
         resetAll={this.resetAll}
-        showCreateListingsLink={showCreateListingsLink}
+        showCreateListingsLink={false}
       />
     );
 

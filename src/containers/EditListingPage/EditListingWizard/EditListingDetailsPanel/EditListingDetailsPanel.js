@@ -255,12 +255,30 @@ const getInitialValues = (
   const listingType = publicData?.listingType || preselectedListingType;
 
   const nestedCategories = pickCategoryFields(publicData, categoryKey, 1, listingCategories);
+  // Providers pick categories via the multi-select 'mainCategories' field (an array of ids),
+  // stored and loaded independently of the single-select cascading category fields above.
+  const mainCategories = publicData?.mainCategories || [];
+  // Non-provider users store their selection as an array of category groups (each a full
+  // categoryLevel path). Restore them so re-editing shows the exact groups again; validate
+  // each saved group against the current category config so stale ids are dropped, mirroring
+  // how pickCategoryFields sanitizes the single-path values. When absent (e.g. a listing that
+  // predates this UI), CategoryGroupsField seeds a group from the legacy categoryLevel fields.
+  const savedCategoryGroups = publicData?.categoryGroups;
+  const categoryGroupsMaybe = Array.isArray(savedCategoryGroups)
+    ? {
+        categoryGroups: savedCategoryGroups.map(group =>
+          pickCategoryFields(group, categoryKey, 1, listingCategories)
+        ),
+      }
+    : {};
   // Initial values for the form
   return {
     title,
     description,
     businessNo: privateData?.businessNo,
     ...nestedCategories,
+    mainCategories,
+    ...categoryGroupsMaybe,
     // Transaction type info: listingType, transactionProcessAlias, unitType
     ...getTransactionInfo({ listingTypes, existingListingTypeInfo, preselectedListingType }),
     ...initialValuesForListingFields(
@@ -333,13 +351,8 @@ const EditListingDetailsPanel = props => {
   // Initial values for the profile fields (avatar, name, displayName, bio) that
   // EditListingProfileFields renders inside EditListingDetailsForm.
   const user = ensureCurrentUser(currentUser);
-  const {
-    firstName,
-    lastName,
-    displayName,
-    bio,
-    publicData: userPublicData,
-  } = user?.attributes?.profile || {};
+  const { firstName, lastName, displayName, bio, publicData: userPublicData } =
+    user?.attributes?.profile || {};
   const isProviderUserType = userPublicData?.userType === 'provider';
   const userTypeConfig = getCurrentUserTypeConfig(config, currentUser);
   const isDisplayNameIncluded = userTypeConfig?.defaultUserFields?.displayName !== false;
@@ -441,6 +454,8 @@ const EditListingDetailsPanel = props => {
               displayName,
               bio: rawBio,
               businessNo,
+              mainCategories,
+              categoryGroups,
               ...rest
             } = values;
 
@@ -496,6 +511,12 @@ const EditListingDetailsPanel = props => {
               nestedCategories,
               listingFields
             );
+
+            // Non-provider users store their category selection as an array of groups (each a
+            // full categoryLevel path). Persist it so re-editing can restore the exact groups -
+            // mainCategories alone is a flattened id list that can't be un-grouped back.
+            const categoryGroupsMaybe = Array.isArray(categoryGroups) ? { categoryGroups } : {};
+
             // New values for listing attributes
             const updateValues = {
               title: listingTitle,
@@ -505,6 +526,8 @@ const EditListingDetailsPanel = props => {
                 transactionProcessAlias,
                 unitType,
                 ...cleanedNestedCategories,
+                mainCategories,
+                ...categoryGroupsMaybe,
                 ...publicListingFields,
               },
               privateData: {

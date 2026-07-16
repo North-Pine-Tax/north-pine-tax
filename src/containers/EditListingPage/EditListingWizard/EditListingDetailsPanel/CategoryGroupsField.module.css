@@ -1,0 +1,79 @@
+@import '../../../../styles/customMediaQueries.css';
+
+.categorySelect {
+  composes: listingTypeSelect from './EditListingDetailsForm.module.css';
+}
+
+.categoryGroups {
+  margin-bottom: 24px;
+
+  @media (--viewportMedium) {
+    margin-bottom: 32px;
+  }
+}
+
+.categoryGroup {
+  padding: 0 0 24px 0;
+  margin: 0 0 24px 0;
+  border-bottom: 1px solid var(--colorGrey200);
+
+  /* The last group has no divider, so drop its trailing spacing too - it would
+     otherwise stack with the add-button's own margin and leave a big gap. */
+  &:last-of-type {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+.error {
+  color: var(--colorFail);
+  margin-bottom: 24px;
+}
+
+.removeCategoryGroupButton {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  color: var(--colorGrey700);
+
+  &:hover {
+    color: var(--colorBlack);
+    text-decoration: none;
+
+    .deleteIcon {
+      stroke: var(--colorFail);
+    }
+  }
+}
+
+.deleteIcon {
+  display: inline-block;
+  box-sizing: content-box;
+  stroke: var(--colorGrey300);
+
+  /* align icon with the select fields */
+  padding: 1px 0 4px 0;
+  margin: 0 8px 0 0;
+
+  &:hover {
+    stroke: var(--colorFail);
+  }
+
+  @media (--viewportMedium) {
+    padding: 2px 0 6px 0;
+  }
+}
+
+.addCategoryGroupButton {
+  composes: h4 from global;
+  padding: 1px 0 5px 0;
+  margin: 8px 0 0 0;
+
+  @media (--viewportMedium) {
+    display: block;
+    padding: 1px 0 7px 0;
+    margin: 8px 0 0 0;
+  }
+}

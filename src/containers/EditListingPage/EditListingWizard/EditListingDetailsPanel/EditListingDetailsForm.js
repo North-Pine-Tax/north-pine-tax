@@ -21,12 +21,14 @@ import {
   Form,
   Button,
   FieldSelect,
+  FieldCheckboxGroup,
   FieldTextInput,
   Heading,
   CustomExtendedDataField,
 } from '../../../../components';
 // Import modules from this directory
 import EditListingProfileFields from './EditListingProfileFields';
+import CategoryGroupsField from './CategoryGroupsField';
 import css from './EditListingDetailsForm.module.css';
 
 const TITLE_MAX_LENGTH = 60;
@@ -245,6 +247,32 @@ const FieldSelectCategory = props => {
   );
 };
 
+// For provider users, level 1 categories are rendered as a multi-select checkbox group
+// instead of the single-select cascading dropdowns used by FieldSelectCategory. Selected
+// values are stored under the 'mainCategories' key as an array of category ids.
+const FieldSelectMainCategories = props => {
+  const { listingCategories, intl, setAllCategoriesChosen, values } = props;
+
+  useEffect(() => {
+    setAllCategoriesChosen(values?.mainCategories?.length > 0);
+  }, [values?.mainCategories?.length]);
+
+  const options = (listingCategories || []).map(category => ({
+    key: category.id,
+    label: category.name,
+  }));
+
+  return (
+    <FieldCheckboxGroup
+      id="mainCategories"
+      name="mainCategories"
+      className={css.formMargins}
+      options={options}
+      label={intl.formatMessage({ id: 'EditListingDetailsForm.mainCategoriesLabel' })}
+    />
+  );
+};
+
 // Add collect data for listing fields (both publicData and privateData) based on configuration
 const AddListingFields = props => {
   const { listingType, listingFieldsConfig, selectedCategories, formId, intl } = props;
@@ -420,17 +448,24 @@ const EditListingDetailsForm = props => (
 
           {isProviderUserType && <EditListingProfileFields formId={formId} />}
 
-          {showCategories && isCompatibleCurrency && (
-            <FieldSelectCategory
-              values={values}
-              prefix={categoryPrefix}
-              listingCategories={selectableCategories}
-              formApi={formApi}
-              intl={intl}
-              allCategoriesChosen={allCategoriesChosen}
-              setAllCategoriesChosen={setAllCategoriesChosen}
-            />
-          )}
+          {showCategories &&
+            isCompatibleCurrency &&
+            (isProviderUserType ? (
+              <FieldSelectMainCategories
+                values={values}
+                listingCategories={selectableCategories}
+                intl={intl}
+                setAllCategoriesChosen={setAllCategoriesChosen}
+              />
+            ) : (
+              <CategoryGroupsField
+                values={values}
+                prefix={categoryPrefix}
+                listingCategories={selectableCategories}
+                formApi={formApi}
+                setAllCategoriesChosen={setAllCategoriesChosen}
+              />
+            ))}
 
           {showTitle && isCompatibleCurrency && !isProviderUserType && (
             <FieldTextInput

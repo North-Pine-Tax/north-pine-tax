@@ -286,13 +286,16 @@ const searchListingsPayloadCreator = ({ searchParams, config }, thunkAPI) => {
   // Filter out potential referral data parameters so that they are not included in the API query
   const { userTypes = [] } = config.user;
   const validReferralSources = getReferralParams(userTypes);
-  const apiParamsRaw = Object.fromEntries(
+  let apiParamsRaw = Object.fromEntries(
     Object.entries(restOfParams).filter(entry => {
       const [key, value] = entry;
 
       return !validReferralSources.includes(key);
     })
   );
+
+  apiParamsRaw = { ...apiParamsRaw, pub_mainCategories: apiParamsRaw?.pub_categoryLevel1 };
+  delete apiParamsRaw?.pub_categoryLevel1;
 
   const params = {
     // The params that are related to listing fields and categories are prepared here.

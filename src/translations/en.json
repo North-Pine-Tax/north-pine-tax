@@ -1503,5 +1503,10 @@
   "EditListingDetailsForm.businessNoLabel": "Business EIN or license number",
   "EditListingDetailsForm.businessNoRequired": "You need to provide a business EIN or license number.",
   "EditListingDetailsForm.businessNoPlaceholder": "e.g. 12-3456789",
-  "UserNav.yourListings": "Your listings"
+  "UserNav.yourListings": "Your listings",
+  "EditListingDetailsForm.mainCategoriesLabel": "Main categories",
+  "EditListingDetailsForm.categoryGroup.addCategory": "+ Have another type of project you need help with?",
+  "EditListingDetailsForm.categoryGroup.remove": "Remove category",
+  "EditListingDetailsForm.categoryGroup.duplicateError": "Two categories can't have the exact same selection - change at least one level so each category is different.",
+  "EditListingDetailsForm.categoryGroup.atLeastOneRequired": "You need to select at least one category."
 }
