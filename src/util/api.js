@@ -100,6 +100,15 @@ const post = (path, body, options = {}) => {
   return request(path, requestOptions);
 };
 
+const get = (path, options = {}) => {
+  const requestOptions = {
+    ...options,
+    method: methods.GET,
+  };
+
+  return request(path, requestOptions);
+};
+
 // Fetch transaction line items from the local API endpoint.
 //
 // See `server/api/transaction-line-items.js` to see what data should
@@ -130,6 +139,14 @@ export const initiatePrivileged = body => {
 // be sent in the body.
 export const transitionPrivileged = body => {
   return post('/api/transition-privileged', body);
+};
+
+// Create a Stripe Billing Portal session for the authenticated current user, so they can
+// manage or cancel their subscription. Returns { url } to redirect to.
+//
+// See `server/api/stripe/create-billing-portal-session.js`.
+export const createBillingPortalSession = () => {
+  return get('/api/stripe/create-billing-portal-session');
 };
 
 // Create user with identity provider (e.g. Facebook or Google)

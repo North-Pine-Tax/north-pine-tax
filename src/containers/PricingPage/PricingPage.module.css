@@ -1,0 +1,175 @@
+@import '../../styles/customMediaQueries.css';
+
+.layoutWrapperMain {
+  min-height: calc(100vh - var(--topbarHeight));
+
+  @media (--viewportMedium) {
+    min-height: calc(100vh - var(--topbarHeightDesktop));
+  }
+}
+
+.root {
+  max-width: 1056px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 48px 24px 64px 24px;
+
+  @media (--viewportMedium) {
+    padding: 72px 24px 96px 24px;
+  }
+}
+
+/* ================ Header ================ */
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+
+  @media (--viewportMedium) {
+    margin-bottom: 56px;
+  }
+}
+
+.heading {
+  margin: 0 0 12px 0;
+}
+
+.subheading {
+  margin: 0;
+  color: var(--colorGrey500);
+  font-size: 18px;
+}
+
+/* ================ Plans ================ */
+
+.plans {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: stretch;
+
+  @media (--viewportMedium) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+.plan {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 28px;
+  background-color: var(--colorWhite);
+  border: 1px solid var(--colorGrey100);
+  border-radius: 12px;
+}
+
+.planFeatured {
+  border-color: var(--marketplaceColor);
+  border-width: 2px;
+  box-shadow: var(--boxShadowPopup);
+}
+
+.popularBadge {
+  position: absolute;
+  top: -12px;
+  left: 28px;
+  padding: 4px 12px;
+  background-color: var(--marketplaceColor);
+  color: var(--colorWhite);
+  font-size: 12px;
+  font-weight: var(--fontWeightSemiBold);
+  line-height: 16px;
+  border-radius: 999px;
+}
+
+.planName {
+  margin: 0 0 8px 0;
+}
+
+.planPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.priceAmount {
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: var(--fontWeightBold);
+  color: var(--colorGrey900);
+}
+
+.pricePeriod {
+  color: var(--colorGrey500);
+  font-size: 16px;
+}
+
+.planTagline {
+  margin: 0 0 20px 0;
+  color: var(--colorGrey500);
+  font-size: 15px;
+}
+
+/* ================ Features ================ */
+
+.featureList {
+  list-style: none;
+  margin: 0 0 28px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--colorGrey700);
+  font-size: 15px;
+}
+
+.checkIcon {
+  flex-shrink: 0;
+  color: var(--marketplaceColor);
+}
+
+/* ================ CTAs ================ */
+
+.planButton {
+  width: 100%;
+  min-height: 48px;
+}
+
+/* NamedLink styled to look like the plan buttons (secondary / outline) */
+.planButtonLink {
+  composes: buttonSecondary from global;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  text-decoration: none;
+}
+
+/* NamedLink styled to look like the primary plan button */
+.planButtonLinkPrimary {
+  composes: buttonPrimary from global;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  text-decoration: none;
+}
+
+.footnote {
+  margin: 32px 0 0 0;
+  text-align: center;
+  color: var(--colorGrey500);
+  font-size: 14px;
+}

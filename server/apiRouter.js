@@ -19,6 +19,8 @@ const deleteAccount = require('./api/delete-account');
 
 const createUserWithIdp = require('./api/auth/createUserWithIdp');
 
+const stripeRouter = require('./api/stripe');
+
 const { authenticateFacebook, authenticateFacebookCallback } = require('./api/auth/facebook');
 const { authenticateGoogle, authenticateGoogleCallback } = require('./api/auth/google');
 
@@ -56,6 +58,9 @@ router.post('/transaction-line-items', transactionLineItems);
 router.post('/initiate-privileged', initiatePrivileged);
 router.post('/transition-privileged', transitionPrivileged);
 router.post('/delete-account', deleteAccount);
+
+// Stripe subscription endpoints (webhook + billing portal) under /api/stripe/*
+router.use('/stripe', stripeRouter);
 
 // Create user with identity provider (e.g. Facebook or Google)
 // This endpoint is called to create a new user after user has confirmed

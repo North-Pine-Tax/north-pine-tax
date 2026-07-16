@@ -29,6 +29,7 @@ const PasswordChangePage = loadable(() => import(/* webpackChunkName: "PasswordC
 const PasswordRecoveryPage = loadable(() => import(/* webpackChunkName: "PasswordRecoveryPage" */ '../containers/PasswordRecoveryPage/PasswordRecoveryPage'));
 const PasswordResetPage = loadable(() => import(/* webpackChunkName: "PasswordResetPage" */ '../containers/PasswordResetPage/PasswordResetPage'));
 const PaymentMethodsPage = loadable(() => import(/* webpackChunkName: "PaymentMethodsPage" */ '../containers/PaymentMethodsPage/PaymentMethodsPage'));
+const PricingPage = loadable(() => import(/* webpackChunkName: "PricingPage" */ '../containers/PricingPage/PricingPage'));
 const PrivacyPolicyPage = loadable(() => import(/* webpackChunkName: "PrivacyPolicyPage" */ '../containers/PrivacyPolicyPage/PrivacyPolicyPage'));
 const ProfilePage = loadable(() => import(/* webpackChunkName: "ProfilePage" */ '../containers/ProfilePage/ProfilePage'));
 const ProfileSettingsPage = loadable(() => import(/* webpackChunkName: "ProfileSettingsPage" */ '../containers/ProfileSettingsPage/ProfileSettingsPage'));
@@ -398,6 +399,14 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       name: 'PrivacyPolicyPage',
       component: PrivacyPolicyPage,
       loadData: pageDataLoadingAPI.PrivacyPolicyPage.loadData,
+    },
+    // Public provider-subscription pricing page. It's intentionally NOT auth-gated here so
+    // logged-out visitors can view the plans; customer redirect and subscribe gating are
+    // handled inside PricingPage based on the current user's type.
+    {
+      path: '/pricing',
+      name: 'PricingPage',
+      component: PricingPage,
     },
     {
       path: '/styleguide',

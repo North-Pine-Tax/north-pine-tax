@@ -406,3 +406,12 @@ export const hasCurrentUserErrors = state => {
 
 export const currentUserTypeSelector = state =>
   state.user.currentUser?.attributes.profile?.publicData?.userType;
+
+// Subscription entitlement is written to profile.metadata by the Stripe webhook (server-side,
+// Integration API only), so it can't be tampered with client-side.
+export const isCurrentUserSubscribedSelector = state =>
+  state.user.currentUser?.attributes?.profile?.metadata?.isSubscriptionActive === true;
+
+export const currentUserEmailSelector = state => state.user.currentUser?.attributes?.email;
+
+export const currentUserIdSelector = state => state.user.currentUser?.id?.uuid;

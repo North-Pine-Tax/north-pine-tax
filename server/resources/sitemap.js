@@ -48,6 +48,7 @@ const defaultPublicPaths = {
   landingPage: { url: '/' },
   termsOfService: { url: '/terms-of-service' },
   privacyPolicy: { url: '/privacy-policy' },
+  pricing: { url: '/pricing' },
   signup: { url: '/signup' },
   login: { url: '/login' },
   search: { url: '/s' },
