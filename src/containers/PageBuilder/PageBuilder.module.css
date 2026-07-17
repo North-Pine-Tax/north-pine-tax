@@ -191,15 +191,17 @@
 }
 
 :global(#popular-categories) {
-  & img{
+  & img {
     width: 70px;
     height: 70px;
   }
+
   & [class*="media"] {
     width: 70px;
     height: 70px;
     margin: 0 auto;
   }
+
   &>div {
     padding-top: 0;
     max-width: 1360px;
@@ -233,6 +235,7 @@
     }
   }
 }
+
 :global(#newsletter) {
   background-color: var(--colorWhite);
   border-top: 1px solid var(--colorGrey100);
@@ -270,20 +273,138 @@
       max-width: 100%;
       color: #fff;
       margin: 0;
-      
+
     }
-    & ~ div{
-      & p{
+
+    &~div {
+      & p {
         font-size: 18px;
         font-family: Inter;
         color: #fff;
-      
+
       }
-      & p:last-child{
+
+      & p:last-child {
         margin: 0;
         padding: 0;
         color: var(--colorBrandAccent);
       }
+    }
+  }
+}
+
+:global(#about-northpine) {
+  & header {
+    display: block;
+    text-align: left;
+
+    & h1 {
+      text-align: left;
+      justify-self: left;
+      color: var(--marketplaceColor);
+      max-width: 100%;
+      width: 100%;
+    }
+    & ~ div{
+      padding-top: 20px;
+      & h2{
+        font-size: 28px;
+        color: var(--colorBrandAccent);
+        font-family: Inter;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 0 20px 0;
+      }
+      & p{
+        font-size: 18px;
+        font-family: Inter;
+        color: var(--marketplaceColor);
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+      }
+      & :global(#mission-list){
+        display: flex;
+        align-items: flex-end;
+        & ul{
+          display: flex;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          gap: 12px;
+          & li {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+            justify-content: center;
+            font-family: Inter;
+            font-size: 24px;
+            color: var(--marketplaceColor);
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+
+            &::before {
+              content: '';
+              display: block;
+              width: 60px;
+              height: 60px;
+              flex-shrink: 0;
+              background-repeat: no-repeat;
+              background-position: center;
+              background-size: contain;
+              margin: 0 auto;
+            }
+
+            &:nth-child(1)::before {
+              /* Shield with person */
+              background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none'%3E%3Cpath d='M24 4.5 L39 10.5 V22.5 C39 32.5 32.5 40.5 24 43.5 C15.5 40.5 9 32.5 9 22.5 V10.5 L24 4.5 Z' stroke='%23234033' stroke-width='2' stroke-linejoin='round'/%3E%3Ccircle cx='24' cy='19' r='4' stroke='%23234033' stroke-width='2'/%3E%3Cpath d='M16.5 31.5 C16.5 27.5 19.5 25 24 25 C28.5 25 31.5 27.5 31.5 31.5' stroke='%23234033' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+            }
+
+            &:nth-child(2)::before {
+              /* Ribbon badge with checkmark */
+              background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none'%3E%3Ccircle cx='24' cy='20' r='12.5' stroke='%23234033' stroke-width='2'/%3E%3Cpath d='M17.5 20.5 L21.5 24.5 L30.5 15.5' stroke='%23234033' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M16.5 30.5 L13 42 L24 36.5 L35 42 L31.5 30.5' stroke='%23234033' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E");
+            }
+
+            &:nth-child(3)::before {
+              /* Group of three people */
+              background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none'%3E%3Ccircle cx='14' cy='16' r='4' stroke='%23234033' stroke-width='2'/%3E%3Cpath d='M7 34 C7 28.5 10 26 14 26 C18 26 21 28.5 21 34' stroke='%23234033' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='34' cy='16' r='4' stroke='%23234033' stroke-width='2'/%3E%3Cpath d='M27 34 C27 28.5 30 26 34 26 C38 26 41 28.5 41 34' stroke='%23234033' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='14' r='5' stroke='%23234033' stroke-width='2'/%3E%3Cpath d='M14.5 36 C14.5 29.5 18.5 26.5 24 26.5 C29.5 26.5 33.5 29.5 33.5 36' stroke='%23234033' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+            }
+          }
+        }
+
+      }
+    }
+  }
+}
+
+:global(#our-story) {
+  background: white !important;
+  & > div{
+    padding-top: 0;
+    & h3{
+      font-size: 28px;
+      color: var(--colorBrandAccent);
+      font-family: Inter;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 0 20px 0;
+    }
+    & p{
+      font-size: 18px;
+      font-family: Inter;
+      color: var(--marketplaceColor);
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+    }
+    & :global(#our-story-block-2){
+     & > div{
+      margin-top: 60px;
+     }
     }
   }
 }

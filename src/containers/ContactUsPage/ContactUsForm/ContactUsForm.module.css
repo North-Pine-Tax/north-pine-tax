@@ -1,0 +1,77 @@
+@import '../../../styles/customMediaQueries.css';
+
+.root {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  @media (--viewportMedium) {
+    gap: 20px;
+  }
+}
+
+.field {
+  margin: 0;
+  width: 100%;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+  padding: 12px 14px;
+  background-color: var(--colorWhite);
+  color: var(--colorGrey900);
+  line-height: 24px;
+  box-shadow: none;
+
+  @media (--viewportMedium) {
+    padding: 14px 16px;
+    line-height: 24px;
+  }
+
+  &::placeholder {
+    color: var(--colorGrey400);
+  }
+
+  &:hover {
+    border-color: #bdbdbd;
+    box-shadow: none;
+  }
+
+  &:focus {
+    border-color: var(--marketplaceColor);
+    box-shadow: 0 0 0 1px var(--marketplaceColor);
+  }
+}
+
+.select {
+  /* Keep single downward chevron look from global select styles */
+  background-position: center right 14px;
+  padding-right: 36px;
+  color: var(--colorGrey900);
+}
+
+.selectPlaceholder {
+  color: var(--colorGrey400);
+}
+
+.textarea {
+  min-height: 160px;
+  resize: vertical;
+
+  @media (--viewportMedium) {
+    min-height: 180px;
+  }
+}
+
+.submitButton {
+  width: 100%;
+  margin-top: 6px;
+  border-radius: 8px;
+  min-height: 52px;
+  font-weight: var(--fontWeightSemiBold);
+}

@@ -16,6 +16,7 @@ const AuthenticationPage = loadable(() => import(/* webpackChunkName: "Authentic
 const CheckoutPage = loadable(() => import(/* webpackChunkName: "CheckoutPage" */ '../containers/CheckoutPage/CheckoutPage'));
 const CMSPage = loadable(() => import(/* webpackChunkName: "CMSPage" */ '../containers/CMSPage/CMSPage'));
 const ContactDetailsPage = loadable(() => import(/* webpackChunkName: "ContactDetailsPage" */ '../containers/ContactDetailsPage/ContactDetailsPage'));
+const ContactUsPage = loadable(() => import(/* webpackChunkName: "ContactUsPage" */ '../containers/ContactUsPage/ContactUsPage'));
 const EditListingPage = loadable(() => import(/* webpackChunkName: "EditListingPage" */ '../containers/EditListingPage/EditListingPage'));
 const EmailVerificationPage = loadable(() => import(/* webpackChunkName: "EmailVerificationPage" */ '../containers/EmailVerificationPage/EmailVerificationPage'));
 const InboxPage = loadable(() => import(/* webpackChunkName: "InboxPage" */ '../containers/InboxPage/InboxPage'));
@@ -407,6 +408,11 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       path: '/pricing',
       name: 'PricingPage',
       component: PricingPage,
+    },
+    {
+      path: '/contact-us',
+      name: 'ContactUsPage',
+      component: ContactUsPage,
     },
     {
       path: '/styleguide',

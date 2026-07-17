@@ -49,6 +49,7 @@ const defaultPublicPaths = {
   termsOfService: { url: '/terms-of-service' },
   privacyPolicy: { url: '/privacy-policy' },
   pricing: { url: '/pricing' },
+  contactUs: { url: '/contact-us' },
   signup: { url: '/signup' },
   login: { url: '/login' },
   search: { url: '/s' },
