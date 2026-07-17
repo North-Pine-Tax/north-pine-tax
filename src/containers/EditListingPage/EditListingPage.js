@@ -177,6 +177,13 @@ export const EditListingPageComponent = props => {
   const isPastDraft = currentListingState && currentListingState !== LISTING_STATE_DRAFT;
   const shouldRedirectAfterPosting = isNewListingFlow && listingId && isPastDraft;
 
+  // Providers offer their services through their own profile listing, so they
+  // should not be able to start the job-posting flow.
+  const { listingType } = parse(location?.search);
+  const currentUserType = currentUser?.attributes?.profile?.publicData?.userType;
+  const shouldRedirectProviderFromJobsFlow =
+    !!currentUser?.id && isNewListingFlow && listingType === 'jobs' && currentUserType === 'provider';
+
   const hasStripeOnboardingDataIfNeeded = returnURLType ? !!currentUser?.id : true;
   const showWizard = hasStripeOnboardingDataIfNeeded && (isNewURI || currentListing.id);
 
@@ -187,6 +194,8 @@ export const EditListingPageComponent = props => {
         params={{ missingAccessRight: NO_ACCESS_PAGE_USER_PENDING_APPROVAL }}
       />
     );
+  } else if (shouldRedirectProviderFromJobsFlow) {
+    return <NamedRedirect name="LandingPage" />;
   } else if (shouldRedirectNoPostingRights) {
     return (
       <NamedRedirect

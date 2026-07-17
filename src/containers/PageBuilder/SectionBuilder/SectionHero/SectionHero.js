@@ -153,7 +153,7 @@ const HeroCtaCard = ({ to, variant, icon: Icon, titleId, subtitleId }) => {
   });
 
   return (
-    <NamedLink name={to.name} params={to.params} className={cardClass}>
+    <NamedLink name={to.name} params={to.params} to={{ search: to.search }} className={cardClass}>
       <span className={css.ctaIcon}>
         <Icon />
       </span>
@@ -194,14 +194,23 @@ const LandingHeroExtras = () => (
   <div className={css.heroExtras}>
     <div className={css.ctaRow}>
       <HeroCtaCard
-        to={{ name: 'NewListingPage' }}
+        to={{
+          name: 'EditListingPage',
+          params: {
+            slug: 'draft',
+            id: '00000000-0000-0000-0000-000000000000',
+            type: 'new',
+            tab: 'details',
+          },
+          search: '?listingType=jobs',
+        }}
         variant="primary"
         icon={IconBriefcase}
         titleId="SectionHero.postJobTitle"
         subtitleId="SectionHero.postJobSubtitle"
       />
       <HeroCtaCard
-        to={{ name: 'SearchPage' }}
+        to={{ name: 'SearchPageWithListingType', params: { listingType: 'jobs' } }}
         variant="secondary"
         icon={IconProfessional}
         titleId="SectionHero.professionalTitle"
