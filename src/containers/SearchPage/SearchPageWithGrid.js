@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
 import { FormattedMessage } from '../../util/reactIntl';
-import { parse } from '../../util/urlHelpers';
+import { JOBS_LISTING_TYPE, parse } from '../../util/urlHelpers';
 import { makeGetListingsByIdSelector } from '../../ducks/marketplaceData.duck';
 import { manageDisableScrolling, isScrollingDisabled } from '../../ducks/ui.duck';
 
-import { Page } from '../../components';
+import { H1, Page } from '../../components';
 import TopbarContainer from '../TopbarContainer/TopbarContainer';
 import FooterContainer from '../FooterContainer/FooterContainer';
 
@@ -36,6 +36,79 @@ const MODAL_BREAKPOINT = 768; // Search is in modal on mobile layout
 // SortBy component has its content in dropdown-popup.
 // With this offset we move the dropdown a few pixels on desktop layout.
 const FILTER_DROPDOWN_OFFSET = -14;
+
+const PROVIDER_BANNER_FEATURES = [
+  'SearchPage.banner.provider.feature1',
+  'SearchPage.banner.provider.feature2',
+  'SearchPage.banner.provider.feature3',
+  'SearchPage.banner.provider.feature4',
+];
+
+const BannerCheckIcon = () => (
+  <svg className={css.searchBannerCheck} viewBox="0 0 20 20" aria-hidden="true">
+    <path
+      d="M8.2 13.4 5.1 10.3l1.1-1.1 2 2 5-5 1.1 1.1-6.1 6.1Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+/**
+ * Hero banner for SearchPage grid layout. Content switches by listing type
+ * (jobs → provider copy; accountants / default → customer copy).
+ *
+ * @param {Object} props
+ * @param {string} [props.listingTypePathParam]
+ * @returns {JSX.Element}
+ */
+const SearchBanner = props => {
+  const { listingTypePathParam } = props;
+  const isProviderBanner = listingTypePathParam === JOBS_LISTING_TYPE;
+
+  if (isProviderBanner) {
+    return (
+      <section
+        className={classNames(css.searchBanner, css.searchBannerProvider)}
+        aria-labelledby="search-banner-title"
+      >
+        <div className={css.searchBannerContent}>
+          <H1 id="search-banner-title" rootClassName={css.searchBannerTitle}>
+            <FormattedMessage id="SearchPage.banner.provider.title" />
+          </H1>
+          <p className={css.searchBannerSubtitle}>
+            <FormattedMessage id="SearchPage.banner.provider.subtitle" />
+          </p>
+          <ul className={css.searchBannerFeatures}>
+            {PROVIDER_BANNER_FEATURES.map(id => (
+              <li key={id} className={css.searchBannerFeature}>
+                <BannerCheckIcon />
+                <span>
+                  <FormattedMessage id={id} />
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section
+      className={classNames(css.searchBanner, css.searchBannerCustomer)}
+      aria-labelledby="search-banner-title"
+    >
+      <div className={css.searchBannerContent}>
+        <H1 id="search-banner-title" rootClassName={css.searchBannerTitle}>
+          <FormattedMessage id="SearchPage.banner.customer.title" />
+        </H1>
+        <p className={css.searchBannerSubtitle}>
+          <FormattedMessage id="SearchPage.banner.customer.subtitle" />
+        </p>
+      </div>
+    </section>
+  );
+};
 
 export class SearchPageComponent extends Component {
   constructor(props) {
@@ -253,6 +326,8 @@ export class SearchPageComponent extends Component {
 
           <div id="main-content" className={css.layoutWrapperMain} role="main">
             <div className={css.searchResultContainer}>
+              <SearchBanner listingTypePathParam={listingTypePathParam} />
+
               <SearchFiltersMobile
                 className={css.searchFiltersMobileList}
                 urlQueryParams={validQueryParams}

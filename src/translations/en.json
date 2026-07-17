@@ -1562,5 +1562,13 @@
   "ContactUsPage.phoneValue": "814-396-2151",
   "ContactUsPage.schemaTitle": "Contact Us | {marketplaceName}",
   "ContactUsPage.subheading": "We're here to help.",
-  "ContactUsPage.successMessage": "Thanks! Your message has been sent."
+  "ContactUsPage.successMessage": "Thanks! Your message has been sent.",
+  "SearchPage.banner.customer.title": "Find the Right Tax & Accounting Professional",
+  "SearchPage.banner.customer.subtitle": "Search and compare vetted CPAs and bookkeeping experts.",
+  "SearchPage.banner.provider.title": "Find Quality Clients. Grow Your Practice.",
+  "SearchPage.banner.provider.subtitle": "Browse jobs posted by individuals and businesses who need your expertise.",
+  "SearchPage.banner.provider.feature1": "New jobs posted daily",
+  "SearchPage.banner.provider.feature2": "Choose jobs that fit your skills",
+  "SearchPage.banner.provider.feature3": "Build your reputation",
+  "SearchPage.banner.provider.feature4": "Secure payments"
 }

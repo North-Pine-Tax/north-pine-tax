@@ -1481,5 +1481,13 @@
   "ContactUsPage.phoneValue": "814-396-2151",
   "ContactUsPage.schemaTitle": "Contáctanos | {marketplaceName}",
   "ContactUsPage.subheading": "Estamos aquí para ayudarte.",
-  "ContactUsPage.successMessage": "¡Gracias! Tu mensaje ha sido enviado."
+  "ContactUsPage.successMessage": "¡Gracias! Tu mensaje ha sido enviado.",
+  "SearchPage.banner.customer.title": "Encuentra el profesional fiscal y contable adecuado",
+  "SearchPage.banner.customer.subtitle": "Busca y compara CPAs y expertos en contabilidad verificados.",
+  "SearchPage.banner.provider.title": "Encuentra clientes de calidad. Haz crecer tu práctica.",
+  "SearchPage.banner.provider.subtitle": "Explora trabajos publicados por personas y empresas que necesitan tu experiencia.",
+  "SearchPage.banner.provider.feature1": "Nuevos trabajos publicados a diario",
+  "SearchPage.banner.provider.feature2": "Elige trabajos que se ajusten a tus habilidades",
+  "SearchPage.banner.provider.feature3": "Construye tu reputación",
+  "SearchPage.banner.provider.feature4": "Pagos seguros"
 }

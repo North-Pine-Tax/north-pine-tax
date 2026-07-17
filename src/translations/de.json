@@ -1481,5 +1481,13 @@
   "ContactUsPage.phoneValue": "814-396-2151",
   "ContactUsPage.schemaTitle": "Kontakt | {marketplaceName}",
   "ContactUsPage.subheading": "Wir sind für dich da.",
-  "ContactUsPage.successMessage": "Danke! Deine Nachricht wurde gesendet."
+  "ContactUsPage.successMessage": "Danke! Deine Nachricht wurde gesendet.",
+  "SearchPage.banner.customer.title": "Finde den richtigen Steuer- und Buchhaltungsexperten",
+  "SearchPage.banner.customer.subtitle": "Suche und vergleiche geprüfte CPAs und Buchhaltungsexperten.",
+  "SearchPage.banner.provider.title": "Finde hochwertige Kunden. Baue deine Praxis aus.",
+  "SearchPage.banner.provider.subtitle": "Durchsuche Jobs von Privatpersonen und Unternehmen, die deine Expertise brauchen.",
+  "SearchPage.banner.provider.feature1": "Täglich neue Jobs",
+  "SearchPage.banner.provider.feature2": "Wähle Jobs, die zu deinen Fähigkeiten passen",
+  "SearchPage.banner.provider.feature3": "Baue deinen Ruf auf",
+  "SearchPage.banner.provider.feature4": "Sichere Zahlungen"
 }

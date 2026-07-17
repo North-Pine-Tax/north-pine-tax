@@ -1481,5 +1481,13 @@
   "ContactUsPage.phoneValue": "814-396-2151",
   "ContactUsPage.schemaTitle": "Contactez-nous | {marketplaceName}",
   "ContactUsPage.subheading": "Nous sommes là pour vous aider.",
-  "ContactUsPage.successMessage": "Merci ! Votre message a été envoyé."
+  "ContactUsPage.successMessage": "Merci ! Votre message a été envoyé.",
+  "SearchPage.banner.customer.title": "Trouvez le bon professionnel de la fiscalité et de la comptabilité",
+  "SearchPage.banner.customer.subtitle": "Recherchez et comparez des CPA et des experts en comptabilité vérifiés.",
+  "SearchPage.banner.provider.title": "Trouvez des clients de qualité. Développez votre cabinet.",
+  "SearchPage.banner.provider.subtitle": "Parcourez les offres publiées par des particuliers et des entreprises qui ont besoin de votre expertise.",
+  "SearchPage.banner.provider.feature1": "De nouvelles offres chaque jour",
+  "SearchPage.banner.provider.feature2": "Choisissez des offres adaptées à vos compétences",
+  "SearchPage.banner.provider.feature3": "Construisez votre réputation",
+  "SearchPage.banner.provider.feature4": "Paiements sécurisés"
 }
