@@ -251,6 +251,17 @@ export const showPaymentDetailsForUser = (config, currentUser) => {
 };
 
 /**
+ * Check if the currentUser is a provider (as opposed to a customer).
+ * Used to gate provider-only flows (e.g. job posting restrictions, subscription management)
+ * that are specific to this marketplace and not driven by Console configuration.
+ *
+ * @param {Object} currentUser API entity
+ * @returns {Boolean} true if currentUser's userType is 'provider'
+ */
+export const isProviderUser = currentUser =>
+  currentUser?.attributes?.profile?.publicData?.userType === 'provider';
+
+/**
  * Check the roles defined for the current user
  * @param {*} config Marketplace configuration
  * @param {*} currentUser API entity

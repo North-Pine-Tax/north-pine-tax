@@ -3,7 +3,7 @@ const { getSdk } = require('../../api-util/sdk');
 const { denormalisedResponseEntities } = require('../../api-util/data');
 const log = require('../../log');
 
-const RETURN_URL = process.env.REACT_APP_MARKETPLACE_ROOT_URL + '/pricing';
+const RETURN_URL = process.env.REACT_APP_MARKETPLACE_ROOT_URL + '/account/subscription';
 
 /**
  * Creates a Stripe Billing Portal session for the authenticated user.

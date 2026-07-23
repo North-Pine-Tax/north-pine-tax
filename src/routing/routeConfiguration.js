@@ -38,6 +38,7 @@ const RequestQuotePage = loadable(() => import(/* webpackChunkName: "RequestQuot
 const SearchPageWithMap = loadable(() => import(/* webpackChunkName: "SearchPageWithMap" */ /* webpackPrefetch: true */  '../containers/SearchPage/SearchPageWithMap'));
 const SearchPageWithGrid = loadable(() => import(/* webpackChunkName: "SearchPageWithGrid" */ /* webpackPrefetch: true */  '../containers/SearchPage/SearchPageWithGrid'));
 const StripePayoutPage = loadable(() => import(/* webpackChunkName: "StripePayoutPage" */ '../containers/StripePayoutPage/StripePayoutPage'));
+const SubscriptionManagementPage = loadable(() => import(/* webpackChunkName: "SubscriptionManagementPage" */ '../containers/SubscriptionManagementPage/SubscriptionManagementPage'));
 const TermsOfServicePage = loadable(() => import(/* webpackChunkName: "TermsOfServicePage" */ '../containers/TermsOfServicePage/TermsOfServicePage'));
 const TransactionPage = loadable(() => import(/* webpackChunkName: "TransactionPage" */ '../containers/TransactionPage/TransactionPage'));
 const NoAccessPage = loadable(() => import(/* webpackChunkName: "NoAccessPage" */ '../containers/NoAccessPage/NoAccessPage'));
@@ -50,6 +51,7 @@ export const ACCOUNT_SETTINGS_PAGES = [
   'PasswordChangePage',
   'StripePayoutPage',
   'PaymentMethodsPage',
+  'SubscriptionManagementPage',
   'ManageAccountPage'
 ];
 
@@ -381,6 +383,13 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       prioritizeLibraryLoading: {
         stripe: true,
       },
+    },
+    {
+      path: '/account/subscription',
+      name: 'SubscriptionManagementPage',
+      auth: true,
+      authPage: 'LoginPage',
+      component: SubscriptionManagementPage,
     },
     {
       path: '/account/manage',

@@ -1570,5 +1570,16 @@
   "SearchPage.banner.provider.feature1": "New jobs posted daily",
   "SearchPage.banner.provider.feature2": "Choose jobs that fit your skills",
   "SearchPage.banner.provider.feature3": "Build your reputation",
-  "SearchPage.banner.provider.feature4": "Secure payments"
+  "SearchPage.banner.provider.feature4": "Secure payments",
+  "LayoutWrapperAccountSettingsSideNav.subscriptionTabTitle": "Manage subscription",
+  "SubscriptionManagementPage.title": "Manage subscription",
+  "SubscriptionManagementPage.heading": "Manage subscription",
+  "SubscriptionManagementPage.statusActive": "Subscribed",
+  "SubscriptionManagementPage.statusInactive": "No active subscription",
+  "SubscriptionManagementPage.activeDescription": "Your Pro subscription is active. Manage your billing details, payment method, or cancel your plan through the Stripe billing portal.",
+  "SubscriptionManagementPage.inactiveDescription": "You don't have an active subscription yet. Check out the Pro plan to unlock more visibility for your listings.",
+  "SubscriptionManagementPage.manageButton": "Manage subscription",
+  "SubscriptionManagementPage.manageError": "Something went wrong while opening the billing portal. Please try again.",
+  "SubscriptionManagementPage.viewPricingButton": "View pricing",
+  "PricingPage.free.includedWithPro": "Included with Pro"
 }

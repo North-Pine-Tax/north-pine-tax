@@ -3,8 +3,10 @@
  * Navigational 'aside' content should be added to this wrapper.
  */
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { FormattedMessage } from '../../../util/reactIntl';
+import { isProviderUser } from '../../../util/userHelpers';
 
 import { TabNav } from '../../../components';
 
@@ -71,6 +73,12 @@ const LayoutWrapperAccountSettingsSideNav = props => {
   const [scrollLeft, setScrollLeft] = useGlobalState('scrollLeft');
   const { accountSettingsNavProps, ariaLabel } = props;
 
+  // Subscription management is only relevant for providers. Derived here (rather than
+  // threaded through every account settings page's accountSettingsNavProps) since it depends
+  // only on the current user, not on any page-specific state.
+  const currentUser = useSelector(state => state.user.currentUser);
+  const showSubscriptionManagement = isProviderUser(currentUser);
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -119,6 +127,21 @@ const LayoutWrapperAccountSettingsSideNav = props => {
       ]
     : [];
 
+  const subscriptionManagementMaybe = showSubscriptionManagement
+    ? [
+        {
+          text: (
+            <FormattedMessage id="LayoutWrapperAccountSettingsSideNav.subscriptionTabTitle" />
+          ),
+          selected: currentPage === 'SubscriptionManagementPage',
+          id: 'SubscriptionManagementPageTab',
+          linkProps: {
+            name: 'SubscriptionManagementPage',
+          },
+        },
+      ]
+    : [];
+
   const tabs = [
     {
       text: <FormattedMessage id="LayoutWrapperAccountSettingsSideNav.contactDetailsTabTitle" />,
@@ -138,6 +161,7 @@ const LayoutWrapperAccountSettingsSideNav = props => {
     },
     ...payoutDetailsMaybe,
     ...paymentMethodsMaybe,
+    ...subscriptionManagementMaybe,
     {
       text: <FormattedMessage id="LayoutWrapperAccountSettingsSideNav.manageAccountTabTitle" />,
       selected: currentPage === 'ManageAccountPage',

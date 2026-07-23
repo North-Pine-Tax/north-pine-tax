@@ -21,8 +21,6 @@ import {
   PrimaryButton,
 } from '../../components';
 
-import { createBillingPortalSession } from '../../util/api';
-
 import TopbarContainer from '../TopbarContainer/TopbarContainer';
 import FooterContainer from '../FooterContainer/FooterContainer';
 
@@ -124,33 +122,23 @@ const PricingPage = () => {
       console.warn('REACT_APP_STRIPE_PRO_PAYMENT_LINK is not set - subscribe is a no-op.');
     }
   };
-  // Fetch a Stripe Billing Portal URL for the current user and send them there (same tab)
-  // to manage or cancel their subscription.
-  const handleManageSubscription = async () => {
-    try {
-      const { url } = await createBillingPortalSession();
-      if (url) {
-        window.location.href = url;
-      }
-    } catch (e) {
-      if (process.env.NODE_ENV !== 'production') {
-        // eslint-disable-next-line no-console
-        console.warn('Failed to open billing portal', e);
-      }
-    }
-  };
-
-  // Free plan CTA: providers are already on it (current plan); logged-out visitors are
-  // pointed at signup to get started.
-  const freePlanCta = isProvider ? (
-    <PrimaryButton type="button" className={css.planButton} disabled>
-      <FormattedMessage id="PricingPage.free.currentPlan" />
-    </PrimaryButton>
-  ) : (
-    <NamedLink name="SignupPage" className={css.planButtonLink}>
-      <FormattedMessage id="PricingPage.free.getStarted" />
-    </NamedLink>
-  );
+  // Free plan CTA: it's the current plan only for a provider who isn't subscribed to Pro;
+  // a subscribed provider has the Free plan included as part of Pro, not as their own plan.
+  // Logged-out visitors are pointed at signup to get started.
+  const freePlanCta =
+    isProvider && isSubscribed ? (
+      <PrimaryButton type="button" className={css.planButton} disabled>
+        <FormattedMessage id="PricingPage.free.includedWithPro" />
+      </PrimaryButton>
+    ) : isProvider ? (
+      <PrimaryButton type="button" className={css.planButton} disabled>
+        <FormattedMessage id="PricingPage.free.currentPlan" />
+      </PrimaryButton>
+    ) : (
+      <NamedLink name="SignupPage" className={css.planButtonLink}>
+        <FormattedMessage id="PricingPage.free.getStarted" />
+      </NamedLink>
+    );
 
   // Pro plan CTA: providers can subscribe or manage; logged-out visitors must sign up first
   // (you can't subscribe while logged out).
@@ -159,9 +147,9 @@ const PricingPage = () => {
       <FormattedMessage id="PricingPage.pro.subscribe" />
     </NamedLink>
   ) : isSubscribed ? (
-    <PrimaryButton type="button" className={css.planButton} onClick={handleManageSubscription}>
+    <NamedLink name="SubscriptionManagementPage" className={css.planButtonLinkPrimary}>
       <FormattedMessage id="PricingPage.pro.manage" />
-    </PrimaryButton>
+    </NamedLink>
   ) : (
     <PrimaryButton type="button" className={css.planButton} onClick={handleSubscribe}>
       <FormattedMessage id="PricingPage.pro.subscribe" />
