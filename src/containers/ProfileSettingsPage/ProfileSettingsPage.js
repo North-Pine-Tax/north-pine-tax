@@ -1,11 +1,14 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import { useConfiguration } from '../../context/configurationContext';
+import { useRouteConfiguration } from '../../context/routeConfigurationContext';
 import { FormattedMessage, useIntl } from '../../util/reactIntl';
 import { propTypes } from '../../util/types';
 import { PROFILE_PAGE_PENDING_APPROVAL_VARIANT } from '../../util/urlHelpers';
+import { createResourceLocatorString } from '../../util/routes';
 import { ensureCurrentUser } from '../../util/data';
 import {
   initialValuesForUserFields,
@@ -22,8 +25,17 @@ import FooterContainer from '../../containers/FooterContainer/FooterContainer';
 
 import ProfileSettingsForm from './ProfileSettingsForm/ProfileSettingsForm';
 
-import { updateProfile, uploadImage } from './ProfileSettingsPage.duck';
+import { updateProfile, updateProfileThunk, uploadImage } from './ProfileSettingsPage.duck';
 import css from './ProfileSettingsPage.module.css';
+
+// Params for the job listing draft that first-time customers are sent to
+// create right after they complete their profile details.
+const JOB_DRAFT_LISTING_PARAMS = {
+  slug: 'draft',
+  id: '00000000-0000-0000-0000-000000000000',
+  type: 'new',
+  tab: 'details',
+};
 
 const onImageUploadHandler = (values, fn) => {
   const { id, imageId, file } = values;
@@ -72,6 +84,8 @@ const ViewProfileLink = props => {
 export const ProfileSettingsPageComponent = props => {
   const config = useConfiguration();
   const intl = useIntl();
+  const history = useHistory();
+  const routeConfiguration = useRouteConfiguration();
   const {
     currentUser,
     image,
@@ -86,6 +100,15 @@ export const ProfileSettingsPageComponent = props => {
 
   const { userFields, userTypes = [] } = config.user;
   const publicUserFields = userFields.filter(uf => uf.scope === 'public');
+  const user = ensureCurrentUser(currentUser);
+  const {
+    firstName,
+    lastName,
+    displayName,
+    bio,
+    publicData,
+    protectedData,
+  } = user?.attributes.profile;
 
   const handleSubmit = (values, userType) => {
     const { firstName, lastName, displayName, bio: rawBio, ...rest } = values;
@@ -105,6 +128,9 @@ export const ProfileSettingsPageComponent = props => {
       publicData: {
         ...pickUserFieldsData(rest, 'public', userType, userFields),
       },
+      protectedData: {
+        hasSubmittedProfileDetails: true,
+      },
     };
     const uploadedImage = props.image;
 
@@ -114,11 +140,24 @@ export const ProfileSettingsPageComponent = props => {
         ? { ...profile, profileImageId: uploadedImage.imageId }
         : profile;
 
-    onUpdateProfile(updatedValues);
+    // Customers are routed to the job-posting flow right after they complete
+    // their profile details for the very first time.
+    const isFirstProfileSubmit = !protectedData?.hasSubmittedProfileDetails;
+    const shouldRedirectToJobDraft = isFirstProfileSubmit && userType !== 'provider';
+
+    onUpdateProfile(updatedValues).then(resultAction => {
+      if (shouldRedirectToJobDraft && updateProfileThunk.fulfilled.match(resultAction)) {
+        const to = createResourceLocatorString(
+          'EditListingPage',
+          routeConfiguration,
+          JOB_DRAFT_LISTING_PARAMS,
+          { listingType: 'jobs' }
+        );
+        history.push(to);
+      }
+    });
   };
 
-  const user = ensureCurrentUser(currentUser);
-  const { firstName, lastName, displayName, bio, publicData } = user?.attributes.profile;
   // I.e. the status is active, not pending-approval or banned
   const isUnauthorizedUser = currentUser && !isUserAuthorized(currentUser);
 
@@ -179,7 +218,7 @@ export const ProfileSettingsPageComponent = props => {
               <FormattedMessage id="ProfileSettingsPage.heading" />
             </H3>
 
-            <ViewProfileLink userUUID={user?.id?.uuid} isUnauthorizedUser={isUnauthorizedUser} />
+            {/* <ViewProfileLink userUUID={user?.id?.uuid} isUnauthorizedUser={isUnauthorizedUser} /> */}
           </div>
           {profileSettingsForm}
         </div>
