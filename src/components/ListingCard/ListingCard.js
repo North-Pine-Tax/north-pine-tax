@@ -8,10 +8,12 @@ import { useConfiguration } from '../../context/configurationContext';
 import { useIntl } from '../../util/reactIntl';
 import { requireListingImage } from '../../util/configHelpers';
 import { lazyLoadWithDimensions } from '../../util/uiHelpers';
-import { createSlug, PROVIDER_LISTING_TYPE } from '../../util/urlHelpers';
+import { createSlug, JOBS_LISTING_TYPE, PROVIDER_LISTING_TYPE } from '../../util/urlHelpers';
 
 import {
   AspectRatioWrapper,
+  JobListingCard,
+  ProfessionalListingCard,
   NamedLink,
   ResponsiveImage,
   ListingCardThumbnail,
@@ -154,6 +156,28 @@ export const ListingCard = props => {
         onMouseLeave: () => setActiveListing(null),
       }
     : null;
+
+  // Job listings use a distinct row-style card (poster avatar, title, location, description)
+  // rather than the image-led card used for every other listing type.
+  if (listingType === JOBS_LISTING_TYPE) {
+    return (
+      <JobListingCard
+        className={className}
+        rootClassName={rootClassName}
+        listing={listing}
+        setActiveListing={setActiveListing}
+        intl={intl}
+      />
+    );
+  } else if (listingType === PROVIDER_LISTING_TYPE) {
+    return (
+      <ProfessionalListingCard
+        className={className}
+        rootClassName={rootClassName}
+        listing={listing}
+      />
+    );
+  }
 
   return (
     <NamedLink

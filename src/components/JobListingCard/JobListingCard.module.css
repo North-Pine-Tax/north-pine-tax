@@ -1,0 +1,72 @@
+@import '../../styles/customMediaQueries.css';
+
+.root {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--colorGrey100);
+  border-radius: var(--borderRadiusMedium);
+  color: var(--colorGrey700);
+  transition: var(--transitionStyleButton);
+
+  &:hover {
+    text-decoration: none;
+    box-shadow: var(--boxShadowListingCard);
+  }
+
+  @media (--viewportMedium) {
+    gap: 16px;
+    padding: 20px 24px;
+  }
+}
+
+.avatar {
+  flex-shrink: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex-grow: 1;
+}
+
+.headerRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.title {
+  font-weight: var(--fontWeightSemiBold);
+  color: var(--colorGrey900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.timeAgo {
+  flex-shrink: 0;
+  font-size: 13px;
+  color: var(--colorGrey300);
+}
+
+.location {
+  margin-top: 2px;
+  font-size: 14px;
+  color: var(--colorGrey500);
+}
+
+.description {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--colorGrey500);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

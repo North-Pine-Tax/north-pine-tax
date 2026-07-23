@@ -1581,5 +1581,11 @@
   "SubscriptionManagementPage.manageButton": "Manage subscription",
   "SubscriptionManagementPage.manageError": "Something went wrong while opening the billing portal. Please try again.",
   "SubscriptionManagementPage.viewPricingButton": "View pricing",
-  "PricingPage.free.includedWithPro": "Included with Pro"
+  "PricingPage.free.includedWithPro": "Included with Pro",
+  "JobListingCard.justNow": "Just now",
+  "JobListingCard.minutesAgo": "{minutes}m ago",
+  "JobListingCard.hoursAgo": "{hours}h ago",
+  "JobListingCard.daysAgo": "{days}d ago",
+  "ProfessionalListingCard.reviewCount": "({count} reviews)",
+  "ProfessionalListingCard.viewProfile": "View Profile"
 }

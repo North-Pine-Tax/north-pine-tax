@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { propTypes } from '../../../util/types';
+import { JOBS_LISTING_TYPE, PROVIDER_LISTING_TYPE } from '../../../util/urlHelpers';
 import { ListingCard, PaginationLinks } from '../../../components';
 
 import css from './SearchResultsPanel.module.css';
@@ -75,16 +76,26 @@ const SearchResultsPanel = props => {
   return (
     <div className={classes}>
       <ul className={isMapVariant ? css.listingCardsMapVariant : css.listingCards}>
-        {listings.map(l => (
-          <li key={l.id.uuid} className={css.resultItem}>
-            <ListingCard
-              className={css.listingCard}
-              listing={l}
-              renderSizes={cardRenderSizes(isMapVariant)}
-              setActiveListing={setActiveListing}
-            />
-          </li>
-        ))}
+        {listings.map(l => {
+          const listingType = l?.attributes?.publicData?.listingType;
+          const isRowStyleListing =
+            listingType === JOBS_LISTING_TYPE || listingType === PROVIDER_LISTING_TYPE;
+          return (
+            <li
+              key={l.id.uuid}
+              className={classNames(css.resultItem, {
+                [css.resultItemFullWidth]: isRowStyleListing,
+              })}
+            >
+              <ListingCard
+                className={css.listingCard}
+                listing={l}
+                renderSizes={cardRenderSizes(isMapVariant)}
+                setActiveListing={setActiveListing}
+              />
+            </li>
+          );
+        })}
         {props.children}
       </ul>
       {paginationLinks}

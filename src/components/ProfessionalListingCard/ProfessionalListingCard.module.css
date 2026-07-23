@@ -1,0 +1,89 @@
+@import '../../styles/customMediaQueries.css';
+
+.root {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--colorGrey100);
+  border-radius: var(--borderRadiusMedium);
+  color: var(--colorGrey700);
+  transition: var(--transitionStyleButton);
+
+  &:hover {
+    text-decoration: none;
+    box-shadow: var(--boxShadowListingCard);
+  }
+
+  @media (--viewportMedium) {
+    gap: 16px;
+    padding: 20px 24px;
+  }
+}
+
+.avatar {
+  flex-shrink: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex-grow: 1;
+}
+
+.title {
+  font-weight: var(--fontWeightSemiBold);
+  color: var(--colorGrey900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.location {
+  margin-top: 2px;
+  font-size: 14px;
+  color: var(--colorGrey500);
+}
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.ratingValue {
+  font-weight: var(--fontWeightSemiBold);
+  color: var(--colorGrey900);
+  font-size: 14px;
+}
+
+.reviewStars {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.reviewStar {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+
+.reviewCount {
+  font-size: 14px;
+  color: var(--colorGrey500);
+}
+
+.ctaButton {
+  flex-shrink: 0;
+  padding: 10px 20px;
+  border-radius: var(--borderRadiusMedium);
+  background-color: var(--marketplaceColor);
+  color: var(--colorWhite);
+  font-weight: var(--fontWeightSemiBold);
+  font-size: 14px;
+  white-space: nowrap;
+}

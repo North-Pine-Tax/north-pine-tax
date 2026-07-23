@@ -29,6 +29,12 @@
   margin: 0;
 }
 
+/* Job listing rows are a single horizontal box, so they span every grid column
+   regardless of how many are active at the current breakpoint. */
+.resultItemFullWidth {
+  grid-column: 1 / -1;
+}
+
 .listingCards {
   padding: 0 0 72px 0;
 
