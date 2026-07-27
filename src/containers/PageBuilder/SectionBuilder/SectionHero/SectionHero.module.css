@@ -72,7 +72,12 @@
   background-color: var(--colorBrandPrimary);
   color: var(--colorWhite);
   box-shadow: var(--boxShadowButton);
-
+  & path{
+    stroke: var(--colorWhite);
+  }
+  & rect{
+    stroke: var(--colorWhite);
+  }
   &:hover,
   &:focus {
     background-color: var(--colorBrandPrimary);
@@ -99,7 +104,12 @@
   background-color: var(--colorWhite);
   color: var(--colorBrandText);
   box-shadow: var(--boxShadowListingCard);
-
+  & path{
+    stroke: var(--colorBlack);
+  }
+  & circle{
+    stroke: var(--colorBlack);
+  }
   &:hover,
   &:focus {
     color: var(--colorBrandText);

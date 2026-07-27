@@ -23,9 +23,18 @@ margin: 0 auto;
 .logoLink {
   border-bottom: 0px solid;
   transition: var(--transitionStyleButton);
+  & > div{
+    width: 210px !important;
+    margin: 0;
+    height: 75px;
+    & img{
+      height: 75px;
+      max-height: 75px;
+    }
+  }
 }
 .logoLink:hover {
-  border-bottom: 4px solid var(--marketplaceColor);
+  /* border-bottom: 4px solid var(--marketplaceColor); */
   border-radius: 0;
 }
 
@@ -208,8 +217,8 @@ margin: 0 auto;
 .signupButton {
   composes: authButton;
 
-  background-color: var(--colorBrandAccent);
-  border-color: var(--colorBrandAccent);
+  background-color: var(--marketplaceColor);
+  border-color: var(--marketplaceColor);
   color: var(--colorWhite);
 
   &:hover,
