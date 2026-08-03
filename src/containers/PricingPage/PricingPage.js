@@ -160,11 +160,13 @@ const PricingPage = () => {
     intl.formatMessage({ id: 'PricingPage.free.feature1' }),
     intl.formatMessage({ id: 'PricingPage.free.feature2' }),
     intl.formatMessage({ id: 'PricingPage.free.feature3' }),
+    intl.formatMessage({ id: 'PricingPage.free.feature4' }),
   ];
   const proFeatures = [
     intl.formatMessage({ id: 'PricingPage.pro.feature1' }),
     intl.formatMessage({ id: 'PricingPage.pro.feature2' }),
     intl.formatMessage({ id: 'PricingPage.pro.feature3' }),
+    intl.formatMessage({ id: 'PricingPage.pro.feature4' }),
   ];
 
   return (

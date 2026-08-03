@@ -1587,5 +1587,7 @@
   "JobListingCard.hoursAgo": "{hours}h ago",
   "JobListingCard.daysAgo": "{days}d ago",
   "ProfessionalListingCard.reviewCount": "({count} reviews)",
-  "ProfessionalListingCard.viewProfile": "View Profile"
+  "ProfessionalListingCard.viewProfile": "View Profile",
+  "PricingPage.free.feature4": "15% commission on first year's fees",
+  "PricingPage.pro.feature4": "15% commission on first year's fees"
 }
