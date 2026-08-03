@@ -16,6 +16,7 @@ const GRID_CONFIG = [
   { contentCss: css.contentCol3, gridCss: css.gridCol3 },
   { contentCss: css.contentCol4, gridCss: css.gridCol4 },
 ];
+import logoImage from '../../../../assets/white-logo.jpg';
 const MAX_MOBILE_SCREEN_WIDTH = 1024;
 
 const getIndex = numberOfColumns => numberOfColumns - 1;
@@ -116,13 +117,14 @@ const SectionFooter = props => {
       <div className={css.footer}>
         <div className={classNames(css.content, getContentCss(numberOfColumns))}>
           <div>
-            <LinkedLogo
+            <img src={logoImage} alt="Logo" className={css.logoImage} />
+            {/* <LinkedLogo
               rootClassName={css.logoLink}
               logoClassName={css.logoWrapper}
               logoImageClassName={css.logoImage}
               linkToExternalSite={linkLogoToExternalSite}
               layout={logoLayout}
-            />
+            /> */}
           </div>
           <div className={css.sloganMobile}>
             <Field data={slogan} className={css.slogan} />

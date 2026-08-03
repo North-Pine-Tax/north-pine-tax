@@ -26,10 +26,10 @@ margin: 0 auto;
   & > div{
     width: 210px !important;
     margin: 0;
-    height: 75px;
+    height: 72px;
     & img{
-      height: 75px;
-      max-height: 75px;
+      height: 72px;
+      max-height: 72px;
     }
   }
 }
@@ -112,17 +112,22 @@ margin: 0 auto;
   }
 
   @media (--viewportMedium) {
-    line-height: 16px;
+    font-size: 16px;
+    line-height: 20px;
     margin: 0;
   }
 }
 
 .topbarLinkLabel {
   composes: textSmall from global;
+  line-height: 20px;
+  font-size: 16px;
   display: inline-block;
-  margin: 28px 0;
+  margin: 26px 0;
   text-decoration: inherit;
   position: relative;
+  color: var(--marketplaceColor);
+  font-weight: var(--fontWeightMedium);
 }
 
 /* Extra desktop nav links: How It Works, Find Work, Find Professionals, Pricing */
